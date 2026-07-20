@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Account</title>
+  <!-- Modern Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-color: #0a0a0a;
+      --card-bg: #121212;
+      --border-color: #262626;
+      --text-primary: #ffffff;
+      --text-secondary: #a3a3a3;
+      --input-bg: #1a1a1a;
+      --accent: #ffffff;
+      --accent-hover: #e5e5e5;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-primary);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow-y: auto;
+      position: relative;
+      padding: 2rem 1.25rem;
+    }
+
+    /* Subtle background grid pattern for depth */
+    body::before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 40px 40px;
+      background-position: center;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Radial gradient overlay for lighting effect */
+    body::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 50% 50%, transparent 20%, rgba(10, 10, 10, 0.9) 80%);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .card {
+      position: relative;
+      z-index: 10;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 2rem;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 255, 255, 0.02);
+    }
+
+    .header {
+      margin-bottom: 1.25rem;
+      text-align: center;
+    }
+
+    .logo {
+      width: 36px;
+      height: 36px;
+      border: 2px solid var(--text-primary);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 0.75rem auto;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: -1px;
+    }
+
+    .title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      margin-bottom: 0.35rem;
+    }
+
+    .subtitle {
+      font-size: 0.825rem;
+      color: var(--text-secondary);
+    }
+
+    .form-group {
+      margin-bottom: 0.875rem;
+      position: relative;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+      color: var(--text-secondary);
+      transition: color 0.2s ease;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      background-color: var(--input-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 0.75rem 0.875rem;
+      color: var(--text-primary);
+      font-size: 0.9rem;
+      outline: none;
+      transition: all 0.2s ease;
+      appearance: none;
+    }
+
+    .form-group select option {
+      background-color: var(--card-bg);
+      color: var(--text-primary);
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: var(--accent);
+      background-color: #222222;
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.05);
+    }
+
+    .form-group input:focus + label,
+    .form-group select:focus + label {
+      color: var(--text-primary);
+    }
+
+    /* Location detection UI helper */
+    .location-status {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+      font-size: 0.725rem;
+      color: var(--text-secondary);
+    }
+
+    .location-status .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: #fbbf24; /* yellow for loading */
+      display: inline-block;
+      transition: all 0.3s ease;
+    }
+
+    .location-status.success .dot {
+      background-color: #10b981; /* green for success */
+      box-shadow: 0 0 8px #10b981;
+    }
+
+    .location-status.error .dot {
+      background-color: #ef4444; /* red for error */
+      box-shadow: 0 0 8px #ef4444;
+    }
+
+    .location-status .status-text {
+      font-weight: 500;
+    }
+
+    /* Custom select container wrapper for modern arrow */
+    .select-wrapper {
+      position: relative;
+    }
+
+    .select-wrapper::after {
+      content: "▼";
+      font-size: 0.7rem;
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-secondary);
+      pointer-events: none;
+    }
+
+    .btn-submit {
+      width: 100%;
+      background-color: var(--accent);
+      color: #000000;
+      border: none;
+      border-radius: 8px;
+      padding: 0.75rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 0.75rem;
+      transition: all 0.2s ease;
+    }
+
+    .btn-submit:hover {
+      background-color: var(--accent-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-submit:active {
+      transform: translateY(0);
+    }
+
+    .footer-text {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+    }
+
+    .footer-link {
+      color: var(--text-primary);
+      text-decoration: none;
+      font-weight: 600;
+      transition: opacity 0.2s ease;
+    }
+
+    .footer-link:hover {
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="header">
+      <div class="logo">⚡</div>
+      <h1 class="title">Create Account</h1>
+      <p class="subtitle">Enter your details to sign up</p>
+    </div>
+
+    <form action="/signup" method="POST">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input 
+          type="text" 
+          id="username" 
+          name="username" 
+          placeholder="e.g. johndoe" 
+          required 
+          autocomplete="username"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input 
+          type="email" 
+          id="email" 
+          name="email" 
+          placeholder="name@example.com" 
+          required 
+          autocomplete="email"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input 
+          type="password" 
+          id="password" 
+          name="password" 
+          placeholder="••••••••" 
+          required 
+          autocomplete="new-password"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="role">Account Type</label>
+        <div class="select-wrapper">
+          <select id="role" name="role" required>
+            <option value="User">User</option>
+            <option value="BusinessOwner">Business Owner</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="location">Location</label>
+        <input 
+          type="text" 
+          id="location" 
+          name="location" 
+          placeholder="Detecting location..." 
+          required 
+        />
+        <input type="hidden" id="ip" name="ip" />
+        <div class="location-status" id="location-status-container">
+          <span class="dot" id="location-status-dot"></span>
+          <span class="status-text" id="location-status-text">Detecting your location...</span>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit">Sign Up</button>
+    </form>
+
+    <div class="footer-text">
+      Already have an account? <a href="/login" class="footer-link">Log in</a>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const locationInput = document.getElementById("location");
+      const ipInput = document.getElementById("ip");
+      const statusDot = document.getElementById("location-status-dot");
+      const statusText = document.getElementById("location-status-text");
+      const statusContainer = document.getElementById("location-status-container");
+
+      function updateStatus(success, message, ip) {
+        if (success) {
+          statusContainer.className = "location-status success";
+          statusText.textContent = message;
+          if (ip) ipInput.value = ip;
+        } else {
+          statusContainer.className = "location-status error";
+          statusText.textContent = message;
+        }
+      }
+
+      function reverseGeocode(lat, lon, ipAddress) {
+        fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en`)
+          .then(res => {
+            if (!res.ok) throw new Error("Reverse geocoding failed");
+            return res.json();
+          })
+          .then(data => {
+            const parts = [];
+            if (data.city) parts.push(data.city);
+            if (data.principalSubdivision) parts.push(data.principalSubdivision);
+            if (data.countryName) parts.push(data.countryName);
+            const loc = parts.join(", ") || "Unknown Location";
+            locationInput.value = loc;
+            updateStatus(true, `Accurate location detected (IP: ${ipAddress || 'Checked'})`, ipAddress);
+          })
+          .catch(err => {
+            console.error("Reverse geocoding failed:", err);
+            fallbackToIpGeocode();
+          });
+      }
+
+      function fallbackToIpGeocode() {
+        // Try ipapi.co
+        fetch("https://ipapi.co/json/")
+          .then(res => {
+            if (!res.ok) throw new Error("ipapi.co failed");
+            return res.json();
+          })
+          .then(data => {
+            const parts = [];
+            if (data.city) parts.push(data.city);
+            if (data.region) parts.push(data.region);
+            if (data.country_name) parts.push(data.country_name);
+            const loc = parts.join(", ") || "Unknown Location";
+            locationInput.value = loc;
+            updateStatus(true, `IP-detected location (IP: ${data.ip})`, data.ip);
+          })
+          .catch(err => {
+            console.warn(err);
+            // Fallback to geolocation-db.com
+            fetch("https://geolocation-db.com/json/")
+              .then(res => {
+                if (!res.ok) throw new Error("geolocation-db.com failed");
+                return res.json();
+              })
+              .then(data => {
+                const parts = [];
+                if (data.city) parts.push(data.city);
+                if (data.state) parts.push(data.state);
+                if (data.country_name) parts.push(data.country_name);
+                const loc = parts.join(", ") || "Unknown Location";
+                locationInput.value = loc;
+                updateStatus(true, `IP-detected location (IP: ${data.IPv4})`, data.IPv4);
+              })
+              .catch(err2 => {
+                console.error("All geoip lookups failed:", err2);
+                locationInput.value = "";
+                locationInput.placeholder = "Enter your location manually";
+                updateStatus(false, "Unable to auto-detect location. Please enter manually.");
+              });
+          });
+      }
+
+      // First fetch IP details (so we have the IP address to store)
+      fetch("https://ipapi.co/json/")
+        .then(res => {
+          if (!res.ok) throw new Error("Could not fetch IP initially");
+          return res.json();
+        })
+        .then(ipData => {
+          const ipAddress = ipData.ip;
+          if (ipAddress) ipInput.value = ipAddress;
+
+          // Request high accuracy GPS-based location
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+              (position) => {
+                reverseGeocode(position.coords.latitude, position.coords.longitude, ipAddress);
+              },
+              (error) => {
+                console.warn("Browser Geolocation declined or failed. Using IP fallback.", error);
+                const parts = [];
+                if (ipData.city) parts.push(ipData.city);
+                if (ipData.region) parts.push(ipData.region);
+                if (ipData.country_name) parts.push(ipData.country_name);
+                const loc = parts.join(", ") || "Unknown Location";
+                locationInput.value = loc;
+                updateStatus(true, `IP-detected location (IP: ${ipAddress})`, ipAddress);
+              },
+              { timeout: 5000, enableHighAccuracy: true }
+            );
+          } else {
+            const parts = [];
+            if (ipData.city) parts.push(ipData.city);
+            if (ipData.region) parts.push(ipData.region);
+            if (ipData.country_name) parts.push(ipData.country_name);
+            const loc = parts.join(", ") || "Unknown Location";
+            locationInput.value = loc;
+            updateStatus(true, `IP-detected location (IP: ${ipAddress})`, ipAddress);
+          }
+        })
+        .catch(err => {
+          console.warn("Could not load initial IP, attempting browser geolocation fallback...", err);
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+              (position) => {
+                reverseGeocode(position.coords.latitude, position.coords.longitude, "");
+              },
+              () => {
+                fallbackToIpGeocode();
+              },
+              { timeout: 5000, enableHighAccuracy: true }
+            );
+          } else {
+            fallbackToIpGeocode();
+          }
+        });
+    });
+  </script>
+
+</body>
+</html>
