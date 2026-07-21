@@ -16,7 +16,6 @@
 // server.listen(8080, ()=>{
 //     console.log('Server is running on port 8080');
 // })
-
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
@@ -24,6 +23,7 @@ const signup = require('./controller/sign');
 const login = require('./controller/login');
 const server = express();
 const security = require('./middleware/security')
+const auth = require('./middleware/authorization')
 const B_dash = require('./controller/adddetail')
 const cp = require("cookie-parser");
 dotenv.config();
@@ -43,6 +43,7 @@ server.use("/logout",(req,res,next)=>{
 server.use('/signup',signup);
 server.use('/login',login);
 server.use(security);
+server.use(auth);
 server.use("/dashboard",B_dash)
 // server.use('/detail',)
 server.listen(3000,()=>{

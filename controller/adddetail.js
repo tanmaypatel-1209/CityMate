@@ -43,6 +43,7 @@ app.post('/adddetail', async (req, res, next) => {
 
 })
 app.get('/display', async (req, res, next) => {
+    console.log(req.url);
     const cu = decrypt(req.cookies.email)
     let u=await user.findOne({email:cu});
     let arr = [];

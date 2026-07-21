@@ -11,11 +11,9 @@ const {
 const express = require("express")
 const app = express.Router();
 app.use("/",(req,res,next)=>{
-    console.log("hello")
     let email = req.cookies.email
     let role =  req.cookies.user
     if (email && role) {
-        console.log("he")
         if (check(email) && check(role)) {
             return next();
         }
