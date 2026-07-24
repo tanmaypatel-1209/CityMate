@@ -822,6 +822,71 @@
       color: var(--text-muted);
     }
 
+    /* Discriminator Badges & Custom Fields */
+    .rent-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #34d399;
+      font-weight: 700;
+      font-size: 0.8rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 8px;
+    }
+
+    .rooms-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      color: #60a5fa;
+      font-weight: 600;
+      font-size: 0.8rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 8px;
+    }
+
+    .facilities-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.4rem;
+    }
+
+    .facility-chip {
+      background: var(--input-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      font-size: 0.75rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .notes-box {
+      background: rgba(255, 255, 255, 0.03);
+      border-left: 3px solid #f59e0b;
+      padding: 0.75rem 1rem;
+      border-radius: 0 8px 8px 0;
+      margin-top: 0.65rem;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .discriminator-section-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px dashed var(--border-color);
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
     /* Modal / Service Details View Drawer */
     .modal-overlay {
       position: fixed;
@@ -1152,9 +1217,9 @@
         <div class="filter-bar" id="categoryFilterBar">
           <button class="filter-chip active" data-category="ALL">All Categories</button>
           <button class="filter-chip" data-category="Gym & Fitness Center">🏋️ Gyms</button>
-          <button class="filter-chip" data-category="Hospital & Healthcare">🏥 Hospitals</button>
+          <button class="filter-chip" data-category="Hospital & Healthcare / Clinic">🏥 Hospitals</button>
           <button class="filter-chip" data-category="Restaurant & Cafe">🍽️ Restaurants</button>
-          <button class="filter-chip" data-category="PGs & Hostels">🏠 PGs</button>
+          <button class="filter-chip" data-category="PGs & Hostels / Co-living">🏠 PGs & Hostels</button>
           <button class="filter-chip" data-category="Salon & Beauty Spa">✂️ Salons</button>
           <button class="filter-chip" data-category="Educational & Coaching">📚 Coaching</button>
           <button class="filter-chip" data-category="IT & Software Services">💻 IT Services</button>
@@ -1204,9 +1269,9 @@
                   <select id="serviceType" name="serviceType" required>
                     <option value="" disabled selected>Select Category</option>
                     <option value="Gym & Fitness Center">🏋️ Gym & Fitness Center</option>
-                    <option value="Hospital & Healthcare">🏥 Hospital & Healthcare / Clinic</option>
+                    <option value="Hospital & Healthcare / Clinic">🏥 Hospital & Healthcare / Clinic</option>
                     <option value="Restaurant & Cafe">🍽️ Restaurant & Cafe / Food</option>
-                    <option value="PGs & Hostels">🏠 PGs & Hostels / Co-living</option>
+                    <option value="PGs & Hostels / Co-living">🏠 PGs & Hostels / Co-living</option>
                     <option value="Salon & Beauty Spa">✂️ Salon & Beauty Spa</option>
                     <option value="Educational & Coaching">📚 Educational & Coaching Classes</option>
                     <option value="IT & Software Services">💻 IT & Software Services</option>
@@ -1224,6 +1289,226 @@
                   <textarea id="description" name="description"
                     placeholder="Describe your service offerings, timings, key facilities, and amenities..."
                     required></textarea>
+                </div>
+              </div>
+
+              <!-- Dynamic Discriminator / Sub-Category Specific Fields -->
+              <div id="discriminatorFieldsSection" style="display: none;" class="discriminator-section-card">
+                <div class="form-section-title" style="margin-top: 0;">
+                  <span id="discriminatorSectionTitle">✨ Category Specific Details</span>
+                </div>
+                
+                <!-- 1. PGs & Hostels / Co-living Fields -->
+                <div id="pgFields" class="disc-fields-group" style="display: none;">
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="rent">Monthly Rent (₹)</label>
+                      <input type="number" id="rent" name="rent" placeholder="e.g. 7500" min="0" />
+                    </div>
+                    <div class="form-group">
+                      <label for="totalRooms">Total Available Rooms</label>
+                      <input type="number" id="totalRooms" name="totalRooms" placeholder="e.g. 15" min="1" />
+                    </div>
+                  </div>
+                  
+                  <div class="form-row full">
+                    <div class="form-group">
+                      <label for="pgFacilities">Facilities & Amenities (comma-separated)</label>
+                      <input type="text" id="pgFacilities" name="facilities" placeholder="e.g. WiFi, AC, Meals Included, Laundry, Power Backup" />
+                    </div>
+                  </div>
+                  
+                  <div class="form-row full">
+                    <div class="form-group">
+                      <label for="pgNotes">Special Rules & Notes</label>
+                      <textarea id="pgNotes" name="Notes" placeholder="e.g. 1 month deposit required. Gate closes at 10 PM."></textarea>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 2. Gym & Fitness Center Fields -->
+                <div id="gymFields" class="disc-fields-group" style="display: none;">
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="gymType">Sub-Category Type</label>
+                      <select id="gymType" name="gymType">
+                        <option value="Gym">Gym</option>
+                        <option value="Fitness Center">Fitness Center</option>
+                        <option value="Yoga Studio">Yoga Studio</option>
+                        <option value="CrossFit">CrossFit</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="monthlyFee">Monthly Fee (₹)</label>
+                      <input type="number" id="monthlyFee" name="monthlyFee" placeholder="e.g. 1500" min="0" />
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="personalTrainerAvailable">Personal Trainer Available</label>
+                      <select id="personalTrainerAvailable" name="personalTrainerAvailable">
+                        <option value="true">Yes, Available</option>
+                        <option value="false" selected>No</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="gymOpeningTime">Opening Time</label>
+                      <input type="text" id="gymOpeningTime" name="openingTime" placeholder="e.g. 06:00 AM" />
+                    </div>
+                    <div class="form-group">
+                      <label for="gymClosingTime">Closing Time</label>
+                      <input type="text" id="gymClosingTime" name="closingTime" placeholder="e.g. 10:00 PM" />
+                    </div>
+                  </div>
+
+                  <div class="form-row full">
+                    <div class="form-group">
+                      <label for="gymFacilities">Gym Facilities (comma-separated)</label>
+                      <input type="text" id="gymFacilities" name="facilities" placeholder="e.g. Cardio Zone, Steam Bath, Shower, Lockers, Free Weights" />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 3. Hospital & Healthcare / Clinic Fields -->
+                <div id="hospitalFields" class="disc-fields-group" style="display: none;">
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="hospitalType">Hospital Type</label>
+                      <select id="hospitalType" name="hospitalType">
+                        <option value="Private">Private</option>
+                        <option value="Government">Government</option>
+                        <option value="Trust">Trust</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="emergencyAvailable">24/7 Emergency Available</label>
+                      <select id="emergencyAvailable" name="emergencyAvailable">
+                        <option value="true">Yes (24/7)</option>
+                        <option value="false" selected>No</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="ambulanceAvailable">Ambulance Service</label>
+                      <select id="ambulanceAvailable" name="ambulanceAvailable">
+                        <option value="true">Yes, Available</option>
+                        <option value="false" selected>No</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="hospOpeningTime">Opening Time</label>
+                      <input type="text" id="hospOpeningTime" name="openingTime" placeholder="e.g. 24 Hours / 08:00 AM" />
+                    </div>
+                    <div class="form-group">
+                      <label for="hospClosingTime">Closing Time</label>
+                      <input type="text" id="hospClosingTime" name="closingTime" placeholder="e.g. 24 Hours / 09:00 PM" />
+                    </div>
+                  </div>
+
+                  <div class="form-row full">
+                    <div class="form-group">
+                      <label for="departments">Departments & Specialities (comma-separated)</label>
+                      <input type="text" id="departments" name="departments" placeholder="e.g. Cardiology, Neurology, Pediatrics, Orthopedics, ICU" />
+                    </div>
+                  </div>
+
+                  <div class="form-row full">
+                    <div class="form-group">
+                      <label for="hospNotes">Hospital Notes / Helpline</label>
+                      <textarea id="hospNotes" name="Notes" placeholder="e.g. Helpline: 108. Cashless insurance available."></textarea>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 4. Educational & Coaching Fields -->
+                <div id="educationFields" class="disc-fields-group" style="display: none;">
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="instituteType">Institute Type</label>
+                      <select id="instituteType" name="instituteType">
+                        <option value="School Tuition">School Tuition</option>
+                        <option value="College Tuition">College Tuition</option>
+                        <option value="Competitive Exam">Competitive Exam</option>
+                        <option value="Computer Training">Computer Training</option>
+                        <option value="Language Classes">Language Classes</option>
+                        <option value="Music">Music</option>
+                        <option value="Dance">Dance</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="fees">Course / Tuition Fees (₹)</label>
+                      <input type="number" id="fees" name="fees" placeholder="e.g. 5000" min="0" />
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="eduOpeningTime">Opening Time</label>
+                      <input type="text" id="eduOpeningTime" name="openingTime" placeholder="e.g. 07:00 AM" />
+                    </div>
+                    <div class="form-group">
+                      <label for="eduClosingTime">Closing Time</label>
+                      <input type="text" id="eduClosingTime" name="closingTime" placeholder="e.g. 08:00 PM" />
+                    </div>
+                  </div>
+
+                  <div class="form-row full">
+                    <div class="form-group">
+                      <label for="courses">Courses & Subjects Offered (comma-separated)</label>
+                      <input type="text" id="courses" name="courses" placeholder="e.g. JEE Main, NEET, Class 10 Maths, Python Full Stack" />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 5. Restaurant & Cafe Fields -->
+                <div id="restaurantFields" class="disc-fields-group" style="display: none;">
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="restaurantType">Establishment Type</label>
+                      <select id="restaurantType" name="restaurantType">
+                        <option value="Restaurant">Restaurant</option>
+                        <option value="Cafe">Cafe</option>
+                        <option value="Fast Food">Fast Food</option>
+                        <option value="Bakery">Bakery</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="dineIn">Dine-In Available</label>
+                      <select id="dineIn" name="dineIn">
+                        <option value="true" selected>Yes</option>
+                        <option value="false">No</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="takeaway">Takeaway / Delivery Available</label>
+                      <select id="takeaway" name="takeaway">
+                        <option value="true" selected>Yes</option>
+                        <option value="false">No</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="restOpeningTime">Opening Time</label>
+                      <input type="text" id="restOpeningTime" name="openingTime" placeholder="e.g. 10:00 AM" />
+                    </div>
+                    <div class="form-group">
+                      <label for="restClosingTime">Closing Time</label>
+                      <input type="text" id="restClosingTime" name="closingTime" placeholder="e.g. 11:00 PM" />
+                    </div>
+                  </div>
+
+                  <div class="form-row full">
+                    <div class="form-group">
+                      <label for="cuisine">Cuisines & Specialties (comma-separated)</label>
+                      <input type="text" id="cuisine" name="cuisine" placeholder="e.g. North Indian, Chinese, Italian, Continental, Desserts" />
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -1260,20 +1545,15 @@
                 </div>
               </div>
 
-              <!-- Section 3: Contact & Timing -->
+              <!-- Section 3: Contact Info -->
               <div class="form-section-title">
-                <span>Contact & Timing</span>
+                <span>Contact Details</span>
               </div>
 
-              <div class="form-row">
+              <div class="form-row full">
                 <div class="form-group">
                   <label for="contect_no">Contact Number <span class="required">*</span></label>
                   <input type="tel" id="contect_no" name="contect_no" placeholder="e.g. +91 9876543210" required />
-                </div>
-
-                <div class="form-group">
-                  <label for="duration">Timings / Operating Hours <span class="required">*</span></label>
-                  <input type="text" id="duration" name="duration" placeholder="e.g. 6:00 AM - 10:00 PM" required />
                 </div>
               </div>
 
@@ -1345,14 +1625,24 @@
                 <p class="preview-desc" id="prevDesc">Service description and details will appear here live as you
                   type...</p>
 
+                <!-- Discriminator Live Preview Box (Rent, Rooms, Facilities, Notes) -->
+                <div id="prevDiscriminatorBox" style="display: none; margin-bottom: 0.85rem;">
+                  <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.5rem;">
+                    <span id="prevRentBadge" class="rent-badge" style="display: none;"></span>
+                    <span id="prevRoomsBadge" class="rooms-badge" style="display: none;"></span>
+                  </div>
+                  <div id="prevFacilitiesList" class="facilities-list"></div>
+                  <div id="prevNotesBox" class="notes-box" style="display: none;"></div>
+                </div>
+
                 <div class="preview-details">
                   <div class="preview-detail-item">
                     <i data-lucide="phone"></i>
                     <span id="prevContact">Contact Number</span>
                   </div>
-                  <div class="preview-detail-item">
+                  <div class="preview-detail-item" id="prevTimingContainer">
                     <i data-lucide="clock"></i>
-                    <span id="prevDuration">Operating Hours / Duration</span>
+                    <span id="prevTiming">Opening - Closing Hours</span>
                   </div>
                   <div class="preview-detail-item">
                     <i data-lucide="map-pin"></i>
@@ -1391,6 +1681,41 @@
         <h2 class="modal-title" id="modalTitle">Service Title</h2>
         <p class="modal-description" id="modalDescription">Detailed service description...</p>
 
+        <!-- Dynamic Discriminator Details (e.g. PG Rent, Rooms, Facilities, Notes) -->
+        <div id="modalDiscriminatorDetails" style="display: none; margin-bottom: 1.5rem; padding: 1.25rem; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 14px;">
+          <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem;">
+            <i data-lucide="home" style="width:18px; height:18px;"></i> Category Specific Information
+          </h4>
+          
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+            <div id="modalRentCard" class="modal-detail-card" style="display: none;">
+              <div class="modal-detail-icon"><i data-lucide="indian-rupee"></i></div>
+              <div class="modal-detail-info">
+                <div class="label">Monthly Rent</div>
+                <div class="value" id="modalRentValue">-</div>
+              </div>
+            </div>
+            
+            <div id="modalRoomsCard" class="modal-detail-card" style="display: none;">
+              <div class="modal-detail-icon"><i data-lucide="bed"></i></div>
+              <div class="modal-detail-info">
+                <div class="label">Total Rooms</div>
+                <div class="value" id="modalRoomsValue">-</div>
+              </div>
+            </div>
+          </div>
+          
+          <div id="modalFacilitiesSection" style="display: none; margin-bottom: 1rem;">
+            <div style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; font-weight: 600;">Facilities & Amenities</div>
+            <div id="modalFacilitiesList" class="facilities-list"></div>
+          </div>
+          
+          <div id="modalNotesSection" style="display: none;">
+            <div style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem; font-weight: 600;">Important Notes & Rules</div>
+            <div id="modalNotesText" class="notes-box"></div>
+          </div>
+        </div>
+
         <div class="modal-details-grid">
           <div class="modal-detail-card">
             <div class="modal-detail-icon"><i data-lucide="phone"></i></div>
@@ -1400,11 +1725,11 @@
             </div>
           </div>
 
-          <div class="modal-detail-card">
+          <div class="modal-detail-card" id="modalTimingCard">
             <div class="modal-detail-icon"><i data-lucide="clock"></i></div>
             <div class="modal-detail-info">
-              <div class="label">Hours / Duration</div>
-              <div class="value" id="modalDuration">-</div>
+              <div class="label">Operating Hours</div>
+              <div class="value" id="modalTiming">-</div>
             </div>
           </div>
 
@@ -1586,6 +1911,31 @@
       }
     }
 
+    function parseUrls(urls) {
+      if (!urls) return [];
+      let list = [];
+      if (Array.isArray(urls)) {
+        urls.forEach(u => {
+          if (typeof u === 'string' && u.trim().startsWith('[')) {
+            try {
+              const parsed = JSON.parse(u);
+              if (Array.isArray(parsed)) list.push(...parsed);
+              else list.push(u);
+            } catch (e) { list.push(u); }
+          } else if (u) {
+            list.push(u);
+          }
+        });
+      } else if (typeof urls === 'string' && urls.trim()) {
+        try {
+          const parsed = JSON.parse(urls);
+          if (Array.isArray(parsed)) list = parsed;
+          else list = [urls];
+        } catch (e) { list = [urls]; }
+      }
+      return list.filter(u => typeof u === 'string' && u.trim());
+    }
+
     // Render Services Grid Function
     function renderServicesGrid() {
       const filtered = allServices.filter(item => {
@@ -1602,7 +1952,7 @@
 
       statTotalCount.textContent = allServices.length;
       let totalImgs = 0;
-      allServices.forEach(s => { if (Array.isArray(s.Urls)) totalImgs += s.Urls.length; });
+      allServices.forEach(s => { totalImgs += parseUrls(s.Urls).length; });
       statImageCount.textContent = totalImgs;
 
       const uniqueCities = new Set(allServices.map(s => s.city).filter(Boolean));
@@ -1634,8 +1984,42 @@
       }
 
       servicesGridContainer.innerHTML = filtered.map((item, idx) => {
-        const coverImg = (Array.isArray(item.Urls) && item.Urls.length > 0) ? item.Urls[0] : '';
-        const imgCount = Array.isArray(item.Urls) ? item.Urls.length : 0;
+        const itemUrls = parseUrls(item.Urls);
+        const coverImg = itemUrls.length > 0 ? itemUrls[0] : '';
+        const imgCount = itemUrls.length;
+
+        // Extract pricing, timings, sub-type & lists
+        const subType = item.gymType || item.hospitalType || item.instituteType || item.restaurantType || '';
+        
+        let priceStr = '';
+        if (item.rent) priceStr = `₹${item.rent}/mo`;
+        else if (item.monthlyFee) priceStr = `₹${item.monthlyFee}/mo`;
+        else if (item.fees) priceStr = `₹${item.fees} Fee`;
+
+        let timingStr = '';
+        if (item.openingTime || item.closingTime) {
+          timingStr = [item.openingTime, item.closingTime].filter(Boolean).join(' - ');
+        }
+
+        // Tag lists (facilities, departments, courses, cuisine)
+        let tagList = [];
+        if (Array.isArray(item.facilities)) tagList = item.facilities;
+        else if (Array.isArray(item.departments)) tagList = item.departments;
+        else if (Array.isArray(item.courses)) tagList = item.courses;
+        else if (Array.isArray(item.cuisine)) tagList = item.cuisine;
+        else if (typeof item.facilities === 'string') tagList = item.facilities.split(',').map(s => s.trim()).filter(Boolean);
+        else if (typeof item.departments === 'string') tagList = item.departments.split(',').map(s => s.trim()).filter(Boolean);
+        else if (typeof item.courses === 'string') tagList = item.courses.split(',').map(s => s.trim()).filter(Boolean);
+        else if (typeof item.cuisine === 'string') tagList = item.cuisine.split(',').map(s => s.trim()).filter(Boolean);
+
+        // Feature flags (Emergency, Ambulance, Trainer, Takeaway, DineIn)
+        const isTrue = (val) => val === true || val === 'true';
+        const featureBadges = [];
+        if (isTrue(item.emergencyAvailable)) featureBadges.push('🚨 24/7 Emergency');
+        if (isTrue(item.ambulanceAvailable)) featureBadges.push('🚑 Ambulance');
+        if (isTrue(item.personalTrainerAvailable)) featureBadges.push('🏋️ Personal Trainer');
+        if (isTrue(item.takeaway)) featureBadges.push('📦 Takeaway');
+        if (isTrue(item.dineIn)) featureBadges.push('🍽️ Dine-In');
 
         return `
           <div class="service-card" onclick="openServiceModal(${idx})">
@@ -1654,17 +2038,39 @@
 
             <div class="service-card-body">
               <h3 class="service-title">${escapeHtml(item.serviceName || 'Untitled Service')}</h3>
+              
+              <!-- Badges & Sub-types -->
+              ${(priceStr || subType || item.totalRooms || featureBadges.length > 0) ? `
+                <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.5rem;">
+                  ${priceStr ? `<span class="rent-badge">${escapeHtml(priceStr)}</span>` : ''}
+                  ${subType ? `<span class="rooms-badge">${escapeHtml(subType)}</span>` : ''}
+                  ${item.totalRooms ? `<span class="rooms-badge">${escapeHtml(item.totalRooms)} Rooms</span>` : ''}
+                  ${featureBadges.map(b => `<span class="facility-chip" style="color:var(--text-primary); border-color:var(--border-hover);">${b}</span>`).join('')}
+                </div>
+              ` : ''}
+
               <p class="service-description">${escapeHtml(item.description || 'No description provided.')}</p>
+
+              ${tagList.length > 0 ? `
+                <div class="facilities-list" style="margin-bottom: 0.75rem;">
+                  ${tagList.slice(0, 3).map(f => `<span class="facility-chip">✨ ${escapeHtml(f)}</span>`).join('')}
+                  ${tagList.length > 3 ? `<span class="facility-chip">+${tagList.length - 3} more</span>` : ''}
+                </div>
+              ` : ''}
+
+              ${item.Notes ? `<div class="notes-box" style="margin-bottom: 0.75rem;">📌 ${escapeHtml(item.Notes)}</div>` : ''}
 
               <div class="service-meta-list">
                 <div class="service-meta-item">
                   <i data-lucide="phone"></i>
                   <span>${escapeHtml(item.contect_no || 'N/A')}</span>
                 </div>
-                <div class="service-meta-item">
-                  <i data-lucide="clock"></i>
-                  <span>${escapeHtml(item.duration || 'N/A')}</span>
-                </div>
+                ${timingStr ? `
+                  <div class="service-meta-item">
+                    <i data-lucide="clock"></i>
+                    <span>${escapeHtml(timingStr)}</span>
+                  </div>
+                ` : ''}
                 <div class="service-meta-item">
                   <i data-lucide="map-pin"></i>
                   <span>${escapeHtml([item.city, item.state].filter(Boolean).join(', ')) || 'Location not specified'}</span>
@@ -1687,7 +2093,6 @@
     const modalTitle = document.getElementById('modalTitle');
     const modalDescription = document.getElementById('modalDescription');
     const modalContact = document.getElementById('modalContact');
-    const modalDuration = document.getElementById('modalDuration');
     const modalLocation = document.getElementById('modalLocation');
     const modalWebsite = document.getElementById('modalWebsite');
 
@@ -1695,7 +2100,8 @@
       const item = allServices[index];
       if (!item) return;
 
-      let rawImgs = Array.isArray(item.Urls) && item.Urls.length > 0 ? item.Urls : [''];
+      let itemUrls = parseUrls(item.Urls);
+      let rawImgs = itemUrls.length > 0 ? itemUrls : [''];
       const imgs = rawImgs.map(url => {
         if (url && url.includes('cloudinary.com') && url.includes('/upload/') && !url.includes('/q_auto')) {
           return url.replace('/upload/', '/upload/q_auto,f_auto/');
@@ -1716,7 +2122,20 @@
       modalTitle.textContent = item.serviceName || 'Untitled Service';
       modalDescription.textContent = item.description || 'No description available.';
       modalContact.textContent = item.contect_no || 'N/A';
-      modalDuration.textContent = item.duration || 'N/A';
+
+      // Timings
+      const modalTimingCard = document.getElementById('modalTimingCard');
+      const modalTiming = document.getElementById('modalTiming');
+      let timingStr = '';
+      if (item.openingTime || item.closingTime) {
+        timingStr = [item.openingTime, item.closingTime].filter(Boolean).join(' - ');
+      }
+      if (timingStr && modalTiming) {
+        modalTiming.textContent = timingStr;
+        if (modalTimingCard) modalTimingCard.style.display = 'flex';
+      } else if (modalTimingCard) {
+        modalTimingCard.style.display = 'none';
+      }
 
       const locArr = [item.address, item.city, item.state, item.pincode].filter(Boolean);
       modalLocation.textContent = locArr.length ? locArr.join(', ') : 'Not specified';
@@ -1725,6 +2144,86 @@
         modalWebsite.innerHTML = `<a href="${escapeHtml(item.website)}" target="_blank" style="color:var(--text-primary); text-decoration:underline;">${escapeHtml(item.website)}</a>`;
       } else {
         modalWebsite.textContent = 'Not specified';
+      }
+
+      // Discriminator Modal Rendering
+      const modalDiscriminatorDetails = document.getElementById('modalDiscriminatorDetails');
+      const modalRentCard = document.getElementById('modalRentCard');
+      const modalRentValue = document.getElementById('modalRentValue');
+      const modalRoomsCard = document.getElementById('modalRoomsCard');
+      const modalRoomsValue = document.getElementById('modalRoomsValue');
+      const modalFacilitiesSection = document.getElementById('modalFacilitiesSection');
+      const modalFacilitiesList = document.getElementById('modalFacilitiesList');
+      const modalNotesSection = document.getElementById('modalNotesSection');
+      const modalNotesText = document.getElementById('modalNotesText');
+
+      let hasModalDisc = false;
+
+      // Price / Fee / Rent
+      let priceVal = '';
+      if (item.rent) priceVal = `₹${item.rent} / month`;
+      else if (item.monthlyFee) priceVal = `₹${item.monthlyFee} / month`;
+      else if (item.fees) priceVal = `₹${item.fees} Course Fee`;
+
+      if (priceVal) {
+        modalRentValue.textContent = priceVal;
+        modalRentCard.style.display = 'flex';
+        hasModalDisc = true;
+      } else {
+        modalRentCard.style.display = 'none';
+      }
+
+      // Rooms or SubType
+      const subType = item.gymType || item.hospitalType || item.instituteType || item.restaurantType || '';
+      if (item.totalRooms) {
+        modalRoomsValue.textContent = `${item.totalRooms} Rooms Available`;
+        modalRoomsCard.style.display = 'flex';
+        hasModalDisc = true;
+      } else if (subType) {
+        modalRoomsValue.textContent = subType;
+        modalRoomsCard.style.display = 'flex';
+        hasModalDisc = true;
+      } else {
+        modalRoomsCard.style.display = 'none';
+      }
+
+      // Tags list (facilities, departments, courses, cuisine)
+      let modalTags = [];
+      if (Array.isArray(item.facilities)) modalTags = [...item.facilities];
+      else if (Array.isArray(item.departments)) modalTags = [...item.departments];
+      else if (Array.isArray(item.courses)) modalTags = [...item.courses];
+      else if (Array.isArray(item.cuisine)) modalTags = [...item.cuisine];
+      else if (typeof item.facilities === 'string') modalTags = item.facilities.split(',').map(s => s.trim()).filter(Boolean);
+      else if (typeof item.departments === 'string') modalTags = item.departments.split(',').map(s => s.trim()).filter(Boolean);
+      else if (typeof item.courses === 'string') modalTags = item.courses.split(',').map(s => s.trim()).filter(Boolean);
+      else if (typeof item.cuisine === 'string') modalTags = item.cuisine.split(',').map(s => s.trim()).filter(Boolean);
+
+      // Feature flags
+      const isTrue = (val) => val === true || val === 'true';
+      if (isTrue(item.emergencyAvailable)) modalTags.unshift('🚨 24/7 Emergency Available');
+      if (isTrue(item.ambulanceAvailable)) modalTags.unshift('🚑 Ambulance Available');
+      if (isTrue(item.personalTrainerAvailable)) modalTags.unshift('🏋️ Personal Trainer Available');
+      if (isTrue(item.takeaway)) modalTags.unshift('📦 Takeaway Available');
+      if (isTrue(item.dineIn)) modalTags.unshift('🍽️ Dine-In Available');
+
+      if (modalTags.length > 0) {
+        modalFacilitiesList.innerHTML = modalTags.map(f => `<span class="facility-chip">✨ ${escapeHtml(f)}</span>`).join('');
+        modalFacilitiesSection.style.display = 'block';
+        hasModalDisc = true;
+      } else {
+        modalFacilitiesSection.style.display = 'none';
+      }
+
+      if (item.Notes) {
+        modalNotesText.textContent = item.Notes;
+        modalNotesSection.style.display = 'block';
+        hasModalDisc = true;
+      } else {
+        modalNotesSection.style.display = 'none';
+      }
+
+      if (modalDiscriminatorDetails) {
+        modalDiscriminatorDetails.style.display = hasModalDisc ? 'block' : 'none';
       }
 
       modalOverlay.classList.add('active');
@@ -1774,27 +2273,61 @@
     const serviceTypeInput = document.getElementById('serviceType');
     const descriptionInput = document.getElementById('description');
     const contectNoInput = document.getElementById('contect_no');
-    const durationInput = document.getElementById('duration');
     const addressInput = document.getElementById('address');
     const cityInput = document.getElementById('city');
     const stateInput = document.getElementById('state');
     const pincodeInput = document.getElementById('pincode');
     const websiteInput = document.getElementById('website');
 
+    // Discriminator form inputs & section
+    const discriminatorFieldsSection = document.getElementById('discriminatorFieldsSection');
+
     const prevTitle = document.getElementById('prevTitle');
     const prevCategory = document.getElementById('prevCategory');
     const prevDesc = document.getElementById('prevDesc');
     const prevContact = document.getElementById('prevContact');
-    const prevDuration = document.getElementById('prevDuration');
     const prevLocation = document.getElementById('prevLocation');
     const prevWeb = document.getElementById('prevWeb');
+
+    const prevDiscriminatorBox = document.getElementById('prevDiscriminatorBox');
+    const prevRentBadge = document.getElementById('prevRentBadge');
+    const prevRoomsBadge = document.getElementById('prevRoomsBadge');
+    const prevFacilitiesList = document.getElementById('prevFacilitiesList');
+    const prevNotesBox = document.getElementById('prevNotesBox');
+
+    function toggleDiscriminatorFields() {
+      const cat = serviceTypeInput.value;
+      const discSection = document.getElementById('discriminatorFieldsSection');
+      const groups = document.querySelectorAll('.disc-fields-group');
+      
+      groups.forEach(g => {
+        g.style.display = 'none';
+        g.querySelectorAll('input, select, textarea').forEach(inp => inp.disabled = true);
+      });
+      
+      let activeGroup = null;
+      if (cat === 'PGs & Hostels / Co-living') activeGroup = document.getElementById('pgFields');
+      else if (cat === 'Gym & Fitness Center') activeGroup = document.getElementById('gymFields');
+      else if (cat === 'Hospital & Healthcare / Clinic') activeGroup = document.getElementById('hospitalFields');
+      else if (cat === 'Educational & Coaching') activeGroup = document.getElementById('educationFields');
+      else if (cat === 'Restaurant & Cafe') activeGroup = document.getElementById('restaurantFields');
+
+      if (activeGroup) {
+        activeGroup.style.display = 'block';
+        activeGroup.querySelectorAll('input, select, textarea').forEach(inp => inp.disabled = false);
+        if (discSection) discSection.style.display = 'block';
+      } else {
+        if (discSection) discSection.style.display = 'none';
+      }
+
+      updatePreview();
+    }
 
     function updatePreview() {
       prevTitle.textContent = serviceNameInput.value.trim() || 'Service Name Preview';
       prevCategory.textContent = serviceTypeInput.value || 'Category';
       prevDesc.textContent = descriptionInput.value.trim() || 'Service description and details will appear here live as you type...';
       prevContact.textContent = contectNoInput.value.trim() || 'Contact Number';
-      prevDuration.textContent = durationInput.value.trim() || 'Operating Hours / Duration';
 
       const city = cityInput.value.trim();
       const state = stateInput.value.trim();
@@ -1805,16 +2338,132 @@
       prevLocation.textContent = locStr;
 
       prevWeb.textContent = websiteInput.value.trim() || 'website.com';
+
+      // Timing check across active inputs
+      const cat = serviceTypeInput.value;
+      let opTime = '', clTime = '';
+      if (cat === 'Gym & Fitness Center') {
+        opTime = document.getElementById('gymOpeningTime')?.value.trim() || '';
+        clTime = document.getElementById('gymClosingTime')?.value.trim() || '';
+      } else if (cat === 'Hospital & Healthcare / Clinic') {
+        opTime = document.getElementById('hospOpeningTime')?.value.trim() || '';
+        clTime = document.getElementById('hospClosingTime')?.value.trim() || '';
+      } else if (cat === 'Educational & Coaching') {
+        opTime = document.getElementById('eduOpeningTime')?.value.trim() || '';
+        clTime = document.getElementById('eduClosingTime')?.value.trim() || '';
+      } else if (cat === 'Restaurant & Cafe') {
+        opTime = document.getElementById('restOpeningTime')?.value.trim() || '';
+        clTime = document.getElementById('restClosingTime')?.value.trim() || '';
+      }
+
+      const prevTiming = document.getElementById('prevTiming');
+      const prevTimingContainer = document.getElementById('prevTimingContainer');
+      const timeStr = [opTime, clTime].filter(Boolean).join(' - ');
+      if (timeStr && prevTiming) {
+        prevTiming.textContent = timeStr;
+        if (prevTimingContainer) prevTimingContainer.style.display = 'flex';
+      } else if (prevTimingContainer) {
+        prevTimingContainer.style.display = 'none';
+      }
+
+      // Discriminator preview fields
+      let hasDisc = false;
+      let priceText = '';
+      let subTypeText = '';
+      let tagsArr = [];
+      let notesText = '';
+
+      if (cat === 'PGs & Hostels / Co-living') {
+        const rent = document.getElementById('rent')?.value;
+        const rooms = document.getElementById('totalRooms')?.value;
+        const facs = document.getElementById('pgFacilities')?.value;
+        const notes = document.getElementById('pgNotes')?.value;
+        if (rent) priceText = `₹${rent}/mo`;
+        if (rooms) subTypeText = `${rooms} Rooms`;
+        if (facs) tagsArr = facs.split(',').map(s => s.trim()).filter(Boolean);
+        if (notes) notesText = notes;
+      } else if (cat === 'Gym & Fitness Center') {
+        const fee = document.getElementById('monthlyFee')?.value;
+        const type = document.getElementById('gymType')?.value;
+        const trainer = document.getElementById('personalTrainerAvailable')?.value;
+        const facs = document.getElementById('gymFacilities')?.value;
+        if (fee) priceText = `₹${fee}/mo`;
+        if (type) subTypeText = type;
+        if (facs) tagsArr = facs.split(',').map(s => s.trim()).filter(Boolean);
+        if (trainer === 'true') tagsArr.unshift('🏋️ Personal Trainer');
+      } else if (cat === 'Hospital & Healthcare / Clinic') {
+        const type = document.getElementById('hospitalType')?.value;
+        const emergency = document.getElementById('emergencyAvailable')?.value;
+        const ambulance = document.getElementById('ambulanceAvailable')?.value;
+        const depts = document.getElementById('departments')?.value;
+        const notes = document.getElementById('hospNotes')?.value;
+        if (type) subTypeText = `${type} Hospital`;
+        if (depts) tagsArr = depts.split(',').map(s => s.trim()).filter(Boolean);
+        if (emergency === 'true') tagsArr.unshift('🚨 24/7 Emergency');
+        if (ambulance === 'true') tagsArr.unshift('🚑 Ambulance');
+        if (notes) notesText = notes;
+      } else if (cat === 'Educational & Coaching') {
+        const fee = document.getElementById('fees')?.value;
+        const type = document.getElementById('instituteType')?.value;
+        const courses = document.getElementById('courses')?.value;
+        if (fee) priceText = `₹${fee} Fee`;
+        if (type) subTypeText = type;
+        if (courses) tagsArr = courses.split(',').map(s => s.trim()).filter(Boolean);
+      } else if (cat === 'Restaurant & Cafe') {
+        const type = document.getElementById('restaurantType')?.value;
+        const takeaway = document.getElementById('takeaway')?.value;
+        const dineIn = document.getElementById('dineIn')?.value;
+        const cuisine = document.getElementById('cuisine')?.value;
+        if (type) subTypeText = type;
+        if (cuisine) tagsArr = cuisine.split(',').map(s => s.trim()).filter(Boolean);
+        if (takeaway === 'true') tagsArr.unshift('📦 Takeaway');
+        if (dineIn === 'true') tagsArr.unshift('🍽️ Dine-In');
+      }
+
+      if (priceText) {
+        prevRentBadge.textContent = priceText;
+        prevRentBadge.style.display = 'inline-flex';
+        hasDisc = true;
+      } else if (prevRentBadge) {
+        prevRentBadge.style.display = 'none';
+      }
+
+      if (subTypeText) {
+        prevRoomsBadge.textContent = subTypeText;
+        prevRoomsBadge.style.display = 'inline-flex';
+        hasDisc = true;
+      } else if (prevRoomsBadge) {
+        prevRoomsBadge.style.display = 'none';
+      }
+
+      if (tagsArr.length > 0) {
+        if (prevFacilitiesList) {
+          prevFacilitiesList.innerHTML = tagsArr.map(f => `<span class="facility-chip">✨ ${escapeHtml(f)}</span>`).join('');
+        }
+        hasDisc = true;
+      } else if (prevFacilitiesList) {
+        prevFacilitiesList.innerHTML = '';
+      }
+
+      if (notesText.trim()) {
+        if (prevNotesBox) {
+          prevNotesBox.textContent = `Note: ${notesText.trim()}`;
+          prevNotesBox.style.display = 'block';
+        }
+        hasDisc = true;
+      } else if (prevNotesBox) {
+        prevNotesBox.style.display = 'none';
+      }
+
+      if (prevDiscriminatorBox) {
+        prevDiscriminatorBox.style.display = hasDisc ? 'block' : 'none';
+      }
     }
 
-    [
-      serviceNameInput, serviceTypeInput, descriptionInput,
-      contectNoInput, durationInput, addressInput,
-      cityInput, stateInput, pincodeInput, websiteInput
-    ].forEach(input => {
-      input.addEventListener('input', updatePreview);
-      input.addEventListener('change', updatePreview);
-    });
+    serviceTypeInput.addEventListener('change', toggleDiscriminatorFields);
+
+    form.addEventListener('input', updatePreview);
+    form.addEventListener('change', updatePreview);
 
     // Auto Location Detection
     const locationStatus = document.getElementById('locationStatus');
@@ -1935,8 +2584,10 @@
           showToast();
           form.reset();
           uploadedUrls = [];
+          toggleDiscriminatorFields();
           updateImageState();
           updatePreview();
+          await fetchUserServices();
           setTimeout(() => {
             switchView('LIST');
           }, 800);
@@ -1945,7 +2596,7 @@
         }
       } catch (err) {
         console.error('Submit error:', err);
-        form.submit();
+        alert('Network error occurred while saving service.');
       } finally {
         submitBtn.disabled = false;
         submitBtn.innerHTML = originalBtnText;

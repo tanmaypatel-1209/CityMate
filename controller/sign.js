@@ -14,7 +14,7 @@ app.get("/",(req,res,next)=>{
     return res.render('index.ejs')
 })
 app.post('/',async(req,res,next)=>{
-    console.log(req.body.username);
+    console.log(req.body);
     const a = await User.findOne({
         email:req.body.email
     });

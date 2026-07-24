@@ -1,10 +1,12 @@
 const mongoose= require('mongoose');
+const options = {
+    discriminatorKey: "serviceType"
+};
 const detailSchema = new mongoose.Schema({
     serviceName:String,
-    serviceType:String,
+    // serviceType:String,
     description:String,
     contect_no:String,
-    duration:String,
     address:String,
     city:String,
     state:String,
@@ -16,5 +18,5 @@ const detailSchema = new mongoose.Schema({
         ref : "User"
     }
 
-})
+}, options);
 module.exports = mongoose.model("Service",detailSchema);
