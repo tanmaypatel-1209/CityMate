@@ -9,9 +9,12 @@ const {
     decrypt
 } = require("../services/encode")
 const U = "User";
-const B = "BusinessOwner";
+const B = "BusinessOwner"; 
 function hasRole(url,role){
     if("/dashboard"==url && role==B){
+        return true;
+    }
+    else if(url.startsWith("/userdashboard") && role == U){
         return true;
     }
     else if("/dashboard/display"==url && (role==B)){
@@ -21,9 +24,8 @@ function hasRole(url,role){
         return true;
     }
     return false;
-    
-
 }
+
 const express = require('express')
 const app = express.Router();
 app.use((req,res,next)=>{

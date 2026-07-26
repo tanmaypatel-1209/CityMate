@@ -36,10 +36,8 @@ app.post('/',async(req,res,next)=>{
     await u.save();
     console.log("saved");
     if(req.body.role==='User'){
-        res.json({
-            success:true,
-            token:'....'
-        })
+        res.statusCode = 302;
+        res.redirect('/userdashboard')
     }
     else{
         res.statusCode=302;

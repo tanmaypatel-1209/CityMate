@@ -39,8 +39,12 @@ app.post("/", async (req, res, next) => {
         res.cookie("user", encrypt(await user.role || "User"), {
             maxAge: 24 * 60 * 60 * 1000
         })
-         
-        
+        res.cookie("city", await user.city, {
+            maxAge: 24 * 60 * 60 * 1000
+        })
+        res.cookie("state", await user.state, {
+            maxAge: 24 * 60 * 60 * 1000
+        })
         if(user.role=="BusinessOwner"){
             return res.redirect(302,"/dashboard")
         }

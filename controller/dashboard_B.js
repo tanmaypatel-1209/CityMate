@@ -20,7 +20,7 @@ const user = require('../Entity/user');
 const { model } = require('mongoose');
 
 app.get('/', (req, res, next) => {
-    return res.render("dashboard.ejs");
+    return res.render("dashboard_B.ejs");
 })
 app.post('/adddetail', async (req, res, next) => {
     let ModelClass = Services;

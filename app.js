@@ -7,13 +7,14 @@ const server = express();
 const security = require('./middleware/security')
 const auth = require('./middleware/authorization')
 const B_dash = require('./controller/dashboard_B')
+const U_bash = require('./controller/dashboard_U')
 const cp = require("cookie-parser");
 dotenv.config();
 mongoose.connect(process.env.MONGO_URI)
 .then(() => { console.log('Connected to MongoDB'); })
 .catch((err) => { console.error('MongoDB connection error:', err); });
 server.set('view engine','ejs')
-server.set('views','views');
+server.set('views', ['views', 'views/business_view', 'views/user_view']);
 server.use(express.json({ limit: '50mb' }));
 server.use(express.urlencoded({ extended: true, limit: '50mb' }));
 server.use(cp());
@@ -28,6 +29,7 @@ server.use('/login',login);
 server.use(security);
 server.use(auth);
 server.use("/dashboard",B_dash)
+server.use("/userdashboard",U_bash)
 // server.use('/detail',)
 server.listen(3000,()=>{
     console.log("server run on 3000 port")
