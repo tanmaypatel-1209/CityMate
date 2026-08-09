@@ -8,6 +8,7 @@ const security = require('./middleware/security')
 const auth = require('./middleware/authorization')
 const B_dash = require('./controller/dashboard_B')
 const U_bash = require('./controller/dashboard_U')
+const review = require('./controller/review');
 const cp = require("cookie-parser");
 dotenv.config();
 mongoose.connect(process.env.MONGO_URI)
@@ -30,6 +31,7 @@ server.use(security);
 server.use(auth);
 server.use("/dashboard",B_dash)
 server.use("/userdashboard",U_bash)
+server.use("/review",review)
 // server.use('/detail',)
 server.listen(3000,()=>{
     console.log("server run on 3000 port")

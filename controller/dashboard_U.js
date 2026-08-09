@@ -9,12 +9,9 @@ const Restaurant = require('../Entity/Restaurant & Cafe');
 const User = require('../Entity/user');
 const { decrypt } = require('../services/encode');
 
-// Render User Dashboard page
 app.get('/', (req, res, next) => {
     return res.render("dashboard_U.ejs");
 });
-
-// Display all services to the user
 app.get('/display', async (req, res, next) => {
     try {
         const usercity = req.cookies.city || "";

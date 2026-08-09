@@ -41,7 +41,7 @@ app.post('/',async(req,res,next)=>{
     }
     else{
         res.statusCode=302;
-        res.redirect('/detail')
+        res.redirect('/dashboard')
         
     }
 })

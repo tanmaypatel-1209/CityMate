@@ -15,21 +15,28 @@
 
   <style>
     :root {
-      --bg-color: #0a0a0a;
-      --card-bg: #121212;
-      --card-hover: #181818;
-      --border-color: #262626;
-      --border-hover: #404040;
-      --text-primary: #ffffff;
-      --text-secondary: #a3a3a3;
-      --text-muted: #666666;
-      --input-bg: #1a1a1a;
-      --input-focus-bg: #222222;
-      --accent: #ffffff;
-      --accent-hover: #e5e5e5;
-      --accent-btn-text: #000000;
-      --success: #10b981;
-      --error: #ef4444;
+      --bg-color: #ffffff;
+      --card-bg: #ffffff;
+      --card-hover: #ffffff;
+      --border-color: #e2e8f0;
+      --border-hover: #cbd5e1;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --input-bg: #f8fafc;
+      --input-focus-bg: #ffffff;
+      --accent: #000000;
+      --accent-hover: #1e293b;
+      --accent-btn-text: #ffffff;
+      --success: #059669;
+      --error: #dc2626;
+      --badge-bg: #f1f5f9;
+      --badge-border: #cbd5e1;
+      --accent-emerald: #059669;
+      --accent-blue: #2563eb;
+      --accent-amber: #f59e0b;
+      --accent-purple: #7c3aed;
+      --accent-pink: #db2777;
     }
 
     * {
@@ -49,31 +56,18 @@
       overflow-x: hidden;
     }
 
-    /* Background grid pattern */
+    /* Subtle background grid pattern */
     body::before {
       content: "";
       position: fixed;
       width: 100%;
       height: 100%;
       background-image:
-        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-      background-size: 40px 40px;
+        linear-gradient(rgba(0, 0, 0, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
+      background-size: 32px 32px;
       background-position: center;
       z-index: 1;
-      pointer-events: none;
-    }
-
-    /* Radial gradient overlay */
-    body::after {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at 50% 50%, transparent 20%, rgba(10, 10, 10, 0.9) 80%);
-      z-index: 2;
       pointer-events: none;
     }
 
@@ -87,7 +81,7 @@
 
     /* Top Navigation Bar */
     .navbar {
-      background-color: rgba(18, 18, 18, 0.9);
+      background-color: rgba(255, 255, 255, 0.92);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border-color);
       padding: 0.85rem 2rem;
@@ -112,15 +106,14 @@
     .brand-logo {
       width: 36px;
       height: 36px;
-      border: 2px solid var(--text-primary);
+      background: #000000;
+      color: #ffffff;
       border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 700;
+      font-weight: 800;
       font-size: 1.1rem;
-      letter-spacing: -1px;
-      color: var(--text-primary);
     }
 
     .brand-text {
@@ -159,9 +152,10 @@
     }
 
     .nav-search input:focus {
-      border-color: var(--accent);
-      background-color: #222222;
-      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.05);
+      border-color: #000000;
+      background-color: #ffffff;
+      color: #0f172a;
+      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
     }
 
     .nav-actions {
@@ -289,15 +283,15 @@
     }
 
     .filter-chip.active {
-      background: var(--accent);
-      color: #000000;
-      border-color: var(--accent);
+      background: #000000;
+      color: #ffffff;
+      border-color: #000000;
     }
 
     /* Services Grid Display */
     .services-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
       gap: 1.5rem;
     }
 
@@ -311,6 +305,7 @@
       flex-direction: column;
       cursor: pointer;
       transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      position: relative;
     }
 
     .service-card:hover {
@@ -320,7 +315,7 @@
     }
 
     .service-card-cover {
-      height: 180px;
+      height: 190px;
       background-color: #181818;
       position: relative;
       overflow: hidden;
@@ -350,14 +345,29 @@
       position: absolute;
       top: 0.85rem;
       left: 0.85rem;
-      background: rgba(10, 10, 10, 0.85);
-      backdrop-filter: blur(6px);
-      border: 1px solid var(--border-color);
-      color: var(--text-primary);
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      color: #000000;
       font-size: 0.75rem;
-      font-weight: 600;
-      padding: 0.3rem 0.75rem;
+      font-weight: 700;
+      padding: 0.35rem 0.8rem;
       border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      z-index: 2;
+    }
+
+    .card-price-badge {
+      position: absolute;
+      bottom: 0.85rem;
+      right: 0.85rem;
+      background: #059669;
+      color: #ffffff;
+      font-size: 0.8rem;
+      font-weight: 800;
+      padding: 0.35rem 0.75rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      z-index: 2;
     }
 
     .service-card-body {
@@ -367,22 +377,78 @@
       flex-direction: column;
     }
 
+    .service-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.5rem;
+      margin-bottom: 0.4rem;
+    }
+
     .service-title {
       font-size: 1.2rem;
-      font-weight: 700;
-      margin-bottom: 0.4rem;
+      font-weight: 800;
       color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .service-sub-type {
+      display: inline-block;
+      font-size: 0.75rem;
+      color: #0f172a;
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
     }
 
     .service-description {
       font-size: 0.875rem;
       color: var(--text-secondary);
       line-height: 1.5;
-      margin-bottom: 1.25rem;
+      margin-bottom: 1rem;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
+    }
+
+    /* Key features & mini badges list on card */
+    .card-highlights {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 1rem;
+    }
+
+    .highlight-pill {
+      font-size: 0.75rem;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      color: #334155;
+      padding: 0.25rem 0.55rem;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-weight: 600;
+    }
+
+    .highlight-pill i {
+      width: 13px;
+      height: 13px;
+      color: #0f172a;
+    }
+
+    .highlight-pill.positive {
+      background: #ecfdf5;
+      border-color: #a7f3d0;
+      color: #047857;
+    }
+    .highlight-pill.positive i {
+      color: #047857;
     }
 
     .service-meta-list {
@@ -409,16 +475,67 @@
       flex-shrink: 0;
     }
 
-    .btn-view-details {
+    .card-actions-row {
+      display: flex;
+      gap: 0.5rem;
       margin-top: 1rem;
-      width: 100%;
-      background: var(--input-bg);
-      border: 1px solid var(--border-color);
-      color: var(--text-primary);
+    }
+
+    .btn-review {
+      flex: 1;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      color: #0f172a;
       padding: 0.65rem;
-      border-radius: 8px;
-      font-size: 0.875rem;
-      font-weight: 600;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+    }
+
+    .btn-review:hover {
+      background: #f8fafc;
+      border-color: #000000;
+      color: #000000;
+    }
+
+    .btn-see-reviews {
+      flex: 1;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: #15803d;
+      padding: 0.65rem;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+    }
+
+    .btn-see-reviews:hover {
+      background: #dcfce7;
+      border-color: #86efac;
+      color: #166534;
+    }
+
+    .btn-view-details {
+      flex: 1.2;
+      background: #000000;
+      border: 1px solid #000000;
+      color: #ffffff;
+      padding: 0.65rem;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 700;
       cursor: pointer;
       transition: all 0.2s ease;
       display: flex;
@@ -428,9 +545,8 @@
     }
 
     .btn-view-details:hover {
-      background: var(--accent);
-      color: var(--accent-btn-text);
-      border-color: var(--accent);
+      background: #1e293b;
+      border-color: #1e293b;
     }
 
     /* Modal Styling */
@@ -457,13 +573,13 @@
       background: var(--card-bg);
       border: 1px solid var(--border-color);
       border-radius: 20px;
-      max-width: 680px;
+      max-width: 760px;
       width: 100%;
       max-height: 90vh;
       overflow-y: auto;
       position: relative;
       padding: 2rem;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.85);
     }
 
     .modal-close-btn {
@@ -473,19 +589,290 @@
       background: var(--input-bg);
       border: 1px solid var(--border-color);
       color: var(--text-secondary);
-      width: 32px;
-      height: 32px;
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: all 0.2s ease;
+      z-index: 10;
     }
 
     .modal-close-btn:hover {
       color: var(--text-primary);
       border-color: var(--border-hover);
+      background: #262626;
+    }
+
+    /* Detailed Modal Internal Layout */
+    .modal-title {
+      font-size: 1.65rem;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+      padding-right: 2.5rem;
+    }
+
+    .modal-sub-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .category-chip {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+    }
+
+    .type-chip {
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: #38bdf8;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+    }
+
+    .modal-gallery-hero {
+      width: 100%;
+      height: 280px;
+      border-radius: 16px;
+      overflow: hidden;
+      background-color: #1a1a1a;
+      margin-bottom: 0.75rem;
+      border: 1px solid var(--border-color);
+      position: relative;
+    }
+
+    .modal-gallery-hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .modal-thumbs-row {
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-thumb {
+      width: 70px;
+      height: 55px;
+      border-radius: 8px;
+      object-fit: cover;
+      cursor: pointer;
+      border: 2px solid transparent;
+      opacity: 0.7;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .modal-thumb.active, .modal-thumb:hover {
+      opacity: 1;
+      border-color: var(--accent);
+    }
+
+    /* Key Specs Metric Grid inside Modal */
+    .specs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.85rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .spec-card {
+      background: var(--input-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 0.9rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .spec-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: #38bdf8;
+    }
+
+    .spec-icon.emerald { color: #34d399; }
+    .spec-icon.amber { color: #fbbf24; }
+    .spec-icon.purple { color: #c084fc; }
+
+    .spec-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-bottom: 0.15rem;
+    }
+
+    .spec-value {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    /* Section Cards */
+    .detail-section {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .detail-section-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-secondary);
+      margin-bottom: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .detail-section-title i {
+      width: 16px;
+      height: 16px;
+      color: #38bdf8;
+    }
+
+    .tags-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .tag-badge {
+      background: var(--input-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      padding: 0.4rem 0.8rem;
+      border-radius: 10px;
+      font-size: 0.825rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .tag-badge i {
+      width: 14px;
+      height: 14px;
+      color: #34d399;
+    }
+
+    /* Notice & Notes Box */
+    .notes-box {
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      border-radius: 12px;
+      padding: 1rem;
+      color: #fde68a;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin-bottom: 1.25rem;
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+    }
+
+    .notes-box i {
+      width: 20px;
+      height: 20px;
+      color: #fbbf24;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    /* Address & Contact Action Grid */
+    .contact-card {
+      background: var(--input-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .contact-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin-bottom: 0.85rem;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    .contact-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .contact-row i {
+      width: 18px;
+      height: 18px;
+      color: #38bdf8;
+      flex-shrink: 0;
+      margin-top: 0.15rem;
+    }
+
+    .contact-row strong {
+      color: var(--text-primary);
+    }
+
+    .contact-actions {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-contact-action {
+      flex: 1;
+      min-width: 140px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      padding: 0.65rem 1rem;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+    }
+
+    .btn-contact-action:hover {
+      background: var(--accent);
+      color: #000000;
+      border-color: var(--accent);
     }
 
     /* Empty state */
@@ -520,7 +907,7 @@
 
       <div class="nav-search">
         <i data-lucide="search"></i>
-        <input type="text" id="search-input" placeholder="Search services, places..." />
+        <input type="text" id="search-input" placeholder="Search by name, city, courses, facilities, timing..." />
       </div>
 
       <div class="nav-actions">
@@ -586,6 +973,22 @@
       </div>
     </div>
 
+    <!-- See Reviews Modal Popup -->
+    <div class="modal-overlay" id="see-reviews-modal">
+      <div class="modal-content" style="max-width: 600px;">
+        <button class="modal-close-btn" id="see-reviews-close"><i data-lucide="x"></i></button>
+        <div id="see-reviews-modal-body"></div>
+      </div>
+    </div>
+
+    <!-- Add Review Modal Popup -->
+    <div class="modal-overlay" id="add-review-modal">
+      <div class="modal-content" style="max-width: 540px;">
+        <button class="modal-close-btn" id="add-review-close"><i data-lucide="x"></i></button>
+        <div id="add-review-modal-body"></div>
+      </div>
+    </div>
+
   </div>
 
   <script>
@@ -612,6 +1015,25 @@
         return match ? decodeURIComponent(match[2]) : null;
       }
 
+      // Helper: format currency
+      function formatCurrency(num) {
+        if (num === null || num === undefined || num === "") return null;
+        return "₹" + Number(num).toLocaleString('en-IN');
+      }
+
+      // Helper: get specific sub-type badge text
+      function getSpecificType(s) {
+        return s.gymType || s.hospitalType || s.instituteType || s.restaurantType || null;
+      }
+
+      // Helper: get price text for card
+      function getPriceTag(s) {
+        if (s.rent) return formatCurrency(s.rent) + " / mo";
+        if (s.monthlyFee) return formatCurrency(s.monthlyFee) + " / mo";
+        if (s.fees) return formatCurrency(s.fees);
+        return null;
+      }
+
       // Fetch all services from backend
       async function fetchServices() {
         try {
@@ -624,7 +1046,7 @@
             userCity = getCookie("city") || "Your City";
           } else {
             allServices = data.services || [];
-            userCity = data.userCity || getCookie("city") || "Your City";
+            userCity = data.usercity || getCookie("city") || "Your City";
           }
 
           navLocationText.textContent = userCity;
@@ -647,12 +1069,39 @@
       function renderServices() {
         const filtered = allServices.filter(s => {
           const matchesCategory = currentCategory === "ALL" || s.serviceType === currentCategory;
-          const name = (s.serviceName || "").toLowerCase();
-          const city = (s.city || "").toLowerCase();
-          const desc = (s.description || "").toLowerCase();
-          const q = searchQuery.toLowerCase();
-          const matchesSearch = !q || name.includes(q) || city.includes(q) || desc.includes(q);
-          return matchesCategory && matchesSearch;
+          
+          if (!matchesCategory) return false;
+
+          if (!searchQuery.trim()) return true;
+
+          const q = searchQuery.toLowerCase().trim();
+          
+          // Build comprehensive search text including ALL service fields
+          const searchableFields = [
+            s.serviceName,
+            s.serviceType,
+            s.description,
+            s.city,
+            s.state,
+            s.address,
+            s.pincode,
+            s.contect_no,
+            s.website,
+            s.Notes,
+            s.gymType,
+            s.hospitalType,
+            s.instituteType,
+            s.restaurantType,
+            Array.isArray(s.facilities) ? s.facilities.join(" ") : "",
+            Array.isArray(s.departments) ? s.departments.join(" ") : "",
+            Array.isArray(s.courses) ? s.courses.join(" ") : "",
+            Array.isArray(s.cuisine) ? s.cuisine.join(" ") : "",
+            s.rent ? String(s.rent) : "",
+            s.monthlyFee ? String(s.monthlyFee) : "",
+            s.fees ? String(s.fees) : ""
+          ].filter(Boolean).join(" ").toLowerCase();
+
+          return searchableFields.includes(q);
         });
 
         if (filtered.length === 0) {
@@ -668,28 +1117,80 @@
 
         servicesGrid.innerHTML = filtered.map(s => {
           const coverImg = (s.Urls && s.Urls.length > 0) ? s.Urls[0] : null;
+          const subType = getSpecificType(s);
+          const priceTag = getPriceTag(s);
+
+          // Build mini highlights for cards based on fields present
+          const highlights = [];
+          if (s.openingTime && s.closingTime) {
+            highlights.push(`<span class="highlight-pill"><i data-lucide="clock"></i> ${s.openingTime} - ${s.closingTime}</span>`);
+          }
+          if (s.personalTrainerAvailable) {
+            highlights.push(`<span class="highlight-pill positive"><i data-lucide="check-circle-2"></i> Trainer Available</span>`);
+          }
+          if (s.emergencyAvailable) {
+            highlights.push(`<span class="highlight-pill positive"><i data-lucide="shield-alert"></i> 24/7 Emergency</span>`);
+          }
+          if (s.ambulanceAvailable) {
+            highlights.push(`<span class="highlight-pill positive"><i data-lucide="truck"></i> Ambulance</span>`);
+          }
+          if (s.takeaway) {
+            highlights.push(`<span class="highlight-pill positive"><i data-lucide="shopping-bag"></i> Takeaway</span>`);
+          }
+          if (s.dineIn) {
+            highlights.push(`<span class="highlight-pill positive"><i data-lucide="utensils"></i> Dine-In</span>`);
+          }
+          if (s.totalRooms) {
+            highlights.push(`<span class="highlight-pill"><i data-lucide="door-open"></i> ${s.totalRooms} Rooms</span>`);
+          }
+          if (Array.isArray(s.facilities) && s.facilities.length > 0) {
+            highlights.push(`<span class="highlight-pill"><i data-lucide="check-square"></i> ${s.facilities.length} Amenities</span>`);
+          }
+          if (Array.isArray(s.courses) && s.courses.length > 0) {
+            highlights.push(`<span class="highlight-pill"><i data-lucide="book"></i> ${s.courses.length} Courses</span>`);
+          }
+          if (Array.isArray(s.departments) && s.departments.length > 0) {
+            highlights.push(`<span class="highlight-pill"><i data-lucide="stethoscope"></i> ${s.departments.length} Depts</span>`);
+          }
+
           return `
             <div class="service-card" onclick="openDetails('${s._id}')">
               <div class="service-card-cover">
                 ${coverImg ? `<img src="${coverImg}" alt="${s.serviceName}">` : `<i data-lucide="image" class="placeholder-icon"></i>`}
                 <span class="service-category-badge">${s.serviceType || 'Service'}</span>
+                ${priceTag ? `<span class="card-price-badge">${priceTag}</span>` : ''}
               </div>
               <div class="service-card-body">
-                <h3 class="service-title">${s.serviceName || 'Untitled Service'}</h3>
+                <div class="service-header-row">
+                  <h3 class="service-title">${s.serviceName || 'Untitled Service'}</h3>
+                </div>
+                ${subType ? `<div><span class="service-sub-type">${subType}</span></div>` : ''}
                 <p class="service-description">${s.description || 'No description provided.'}</p>
+                
+                ${highlights.length > 0 ? `<div class="card-highlights">${highlights.slice(0, 3).join('')}</div>` : ''}
+
                 <div class="service-meta-list">
                   <div class="service-meta-item">
                     <i data-lucide="map-pin"></i>
-                    <span>${s.city || ''}${s.state ? ', ' + s.state : ''}</span>
+                    <span>${s.address ? s.address + ', ' : ''}${s.city || ''}${s.state ? ', ' + s.state : ''}</span>
                   </div>
                   <div class="service-meta-item">
                     <i data-lucide="phone"></i>
                     <span>${s.contect_no || 'N/A'}</span>
                   </div>
                 </div>
-                <button class="btn-view-details">
-                  <i data-lucide="eye"></i> View Details
-                </button>
+
+                <div class="card-actions-row">
+                  <button class="btn-review" type="button" onclick="event.stopPropagation(); openAddReviewModal('${s._id}')">
+                    <i data-lucide="message-square-text"></i> Review
+                  </button>
+                  <button class="btn-see-reviews" type="button" onclick="event.stopPropagation(); openSeeReviewsModal('${s._id}')">
+                    <i data-lucide="star"></i> See Reviews
+                  </button>
+                  <button class="btn-view-details" type="button" onclick="event.stopPropagation(); openDetails('${s._id}')">
+                    <i data-lucide="eye"></i> Details
+                  </button>
+                </div>
               </div>
             </div>
           `;
@@ -714,38 +1215,515 @@
         renderServices();
       });
 
-      // Modal Details Window
+      // Navigate to the review page for the selected service
+      window.openReviewPage = function(serviceId) {
+        if (!serviceId) return;
+        window.location.href = '/review/' + encodeURIComponent(serviceId);
+      };
+
+      // Load modal reviews via GET /review/display/:ID
+      async function loadModalReviews(serviceId) {
+        const container = document.getElementById(`modal-reviews-list-${serviceId}`);
+        if (!container) return;
+
+        try {
+          const res = await fetch('/review/display/' + encodeURIComponent(serviceId));
+          const data = await res.json();
+          const reviews = Array.isArray(data) ? data : ((data && Array.isArray(data.review)) ? data.review : []);
+
+          if (reviews.length === 0) {
+            container.innerHTML = `
+              <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem;">No reviews submitted yet for this service.</p>
+            `;
+            return;
+          }
+
+          container.innerHTML = reviews.map(r => {
+            const comment = r.coment || r.Coment || r.Comment || 'No comment provided.';
+            const rating = Number(r.rating) || 5;
+            let stars = '';
+            for (let i = 1; i <= 5; i++) {
+              stars += i <= rating ? '★' : '☆';
+            }
+            const dateStr = r.date ? new Date(r.date).toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' }) : '';
+
+            return `
+              <div style="background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 0.85rem; margin-top: 0.65rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                  <span style="color: #f59e0b; font-size: 0.95rem; letter-spacing: 1px;">${stars}</span>
+                  ${dateStr ? `<span style="font-size: 0.75rem; color: var(--text-muted);">${dateStr}</span>` : ''}
+                </div>
+                <div style="font-size: 0.875rem; color: var(--text-primary); line-height: 1.4;">${comment}</div>
+              </div>
+            `;
+          }).join('');
+        } catch (err) {
+          console.error("Error loading modal reviews:", err);
+          container.innerHTML = `<p style="font-size: 0.85rem; color: var(--error); margin-top: 0.5rem;">Failed to load reviews.</p>`;
+        }
+      }
+
+      // Modal Details Window - Displays ALL backend attributes
       window.openDetails = function(id) {
         const item = allServices.find(s => s._id === id);
         if (!item) return;
 
+        const subType = getSpecificType(item);
+        const images = item.Urls || [];
+        const heroImg = images.length > 0 ? images[0] : null;
+
+        // Build Spec Cards Array
+        const specs = [];
+
+        // Pricing
+        if (item.rent !== undefined && item.rent !== null) {
+          specs.push({ icon: 'circle-dollar-sign', class: 'emerald', label: 'Monthly Rent', val: formatCurrency(item.rent) + ' / mo' });
+        }
+        if (item.monthlyFee !== undefined && item.monthlyFee !== null) {
+          specs.push({ icon: 'circle-dollar-sign', class: 'emerald', label: 'Monthly Fee', val: formatCurrency(item.monthlyFee) + ' / mo' });
+        }
+        if (item.fees !== undefined && item.fees !== null) {
+          specs.push({ icon: 'graduation-cap', class: 'emerald', label: 'Course Fee', val: formatCurrency(item.fees) });
+        }
+
+        // Capacity & Specific Types
+        if (item.totalRooms) {
+          specs.push({ icon: 'door-open', class: 'purple', label: 'Total Rooms', val: `${item.totalRooms} Rooms` });
+        }
+        if (item.gymType) {
+          specs.push({ icon: 'dumbbell', class: 'purple', label: 'Gym Category', val: item.gymType });
+        }
+        if (item.hospitalType) {
+          specs.push({ icon: 'building-2', class: 'purple', label: 'Hospital Type', val: item.hospitalType });
+        }
+        if (item.instituteType) {
+          specs.push({ icon: 'book-open', class: 'purple', label: 'Institute Category', val: item.instituteType });
+        }
+        if (item.restaurantType) {
+          specs.push({ icon: 'utensils', class: 'purple', label: 'Establishment', val: item.restaurantType });
+        }
+
+        // Operating Hours
+        if (item.openingTime || item.closingTime) {
+          const timingText = `${item.openingTime || 'N/A'} - ${item.closingTime || 'N/A'}`;
+          specs.push({ icon: 'clock', class: 'amber', label: 'Operating Hours', val: timingText });
+        }
+
+        // Booleans
+        if (item.personalTrainerAvailable !== undefined) {
+          specs.push({
+            icon: item.personalTrainerAvailable ? 'user-check' : 'user-x',
+            class: item.personalTrainerAvailable ? 'emerald' : 'amber',
+            label: 'Personal Trainer',
+            val: item.personalTrainerAvailable ? 'Available' : 'Not Available'
+          });
+        }
+        if (item.emergencyAvailable !== undefined) {
+          specs.push({
+            icon: item.emergencyAvailable ? 'shield-alert' : 'shield-off',
+            class: item.emergencyAvailable ? 'emerald' : 'amber',
+            label: '24/7 Emergency',
+            val: item.emergencyAvailable ? 'Available' : 'Not Available'
+          });
+        }
+        if (item.ambulanceAvailable !== undefined) {
+          specs.push({
+            icon: item.ambulanceAvailable ? 'truck' : 'x-circle',
+            class: item.ambulanceAvailable ? 'emerald' : 'amber',
+            label: 'Ambulance Service',
+            val: item.ambulanceAvailable ? 'Available' : 'Not Available'
+          });
+        }
+        if (item.takeaway !== undefined) {
+          specs.push({
+            icon: item.takeaway ? 'shopping-bag' : 'x-circle',
+            class: item.takeaway ? 'emerald' : 'amber',
+            label: 'Takeaway Service',
+            val: item.takeaway ? 'Available' : 'Not Available'
+          });
+        }
+        if (item.dineIn !== undefined) {
+          specs.push({
+            icon: item.dineIn ? 'utensils' : 'x-circle',
+            class: item.dineIn ? 'emerald' : 'amber',
+            label: 'Dine-In Facility',
+            val: item.dineIn ? 'Available' : 'Not Available'
+          });
+        }
+
+        // Badges Array Sections
+        const facilities = Array.isArray(item.facilities) && item.facilities.length > 0 ? item.facilities : null;
+        const departments = Array.isArray(item.departments) && item.departments.length > 0 ? item.departments : null;
+        const courses = Array.isArray(item.courses) && item.courses.length > 0 ? item.courses : null;
+        const cuisines = Array.isArray(item.cuisine) && item.cuisine.length > 0 ? item.cuisine : null;
+
         modalBody.innerHTML = `
-          <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem;">${item.serviceName}</h2>
-          <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem;">${item.serviceType} • ${item.city}, ${item.state}</p>
-          ${item.Urls && item.Urls.length > 0 ? `
-            <div style="display: flex; gap: 0.5rem; overflow-x: auto; margin-bottom: 1.5rem;">
-              ${item.Urls.map(u => `<img src="${u}" style="height: 160px; border-radius: 12px; object-fit: cover;">`).join('')}
+          <h2 class="modal-title">${item.serviceName || 'Untitled Service'}</h2>
+          
+          <div class="modal-sub-bar">
+            <span class="category-chip"><i data-lucide="tag" style="width:12px;height:12px;display:inline-block;vertical-align:-1px;"></i> ${item.serviceType || 'Service'}</span>
+            ${subType ? `<span class="type-chip">${subType}</span>` : ''}
+            <span style="color: var(--text-secondary); font-size: 0.85rem;"><i data-lucide="map-pin" style="width:14px;height:14px;display:inline-block;vertical-align:-2px;"></i> ${item.city || ''}${item.state ? ', ' + item.state : ''}</span>
+          </div>
+
+          <!-- Gallery Section -->
+          ${images.length > 0 ? `
+            <div class="modal-gallery-hero">
+              <img id="main-modal-img" src="${heroImg}" alt="${item.serviceName}">
+            </div>
+            ${images.length > 1 ? `
+              <div class="modal-thumbs-row">
+                ${images.map((url, idx) => `
+                  <img src="${url}" class="modal-thumb ${idx === 0 ? 'active' : ''}" onclick="switchModalImage(this, '${url}')">
+                `).join('')}
+              </div>
+            ` : ''}
+          ` : ''}
+
+          <!-- Metric Specs Grid -->
+          ${specs.length > 0 ? `
+            <div class="specs-grid">
+              ${specs.map(sp => `
+                <div class="spec-card">
+                  <div class="spec-icon ${sp.class}">
+                    <i data-lucide="${sp.icon}"></i>
+                  </div>
+                  <div>
+                    <div class="spec-label">${sp.label}</div>
+                    <div class="spec-value">${sp.val}</div>
+                  </div>
+                </div>
+              `).join('')}
             </div>
           ` : ''}
-          <h4 style="font-size: 0.85rem; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 0.5rem;">Description</h4>
-          <p style="font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem;">${item.description || 'No description available.'}</p>
-          <div style="background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem;">
-            <p style="margin-bottom: 0.5rem;"><strong>📍 Address:</strong> ${item.address}, ${item.city}, ${item.state} - ${item.pincode}</p>
-            <p style="margin-bottom: 0.5rem;"><strong>📞 Contact:</strong> ${item.contect_no || 'N/A'}</p>
-            ${item.website ? `<p><strong>🌐 Website:</strong> <a href="${item.website}" target="_blank" style="color: #38bdf8;">${item.website}</a></p>` : ''}
+
+          <!-- Description Section -->
+          <div class="detail-section">
+            <div class="detail-section-title"><i data-lucide="align-left"></i> About Service</div>
+            <p style="font-size: 0.925rem; color: var(--text-primary); line-height: 1.6; white-space: pre-line;">${item.description || 'No detailed description provided.'}</p>
+          </div>
+
+          <!-- Facilities / Amenities Section -->
+          ${facilities ? `
+            <div class="detail-section">
+              <div class="detail-section-title"><i data-lucide="sparkles"></i> Facilities & Amenities</div>
+              <div class="tags-container">
+                ${facilities.map(f => `<span class="tag-badge"><i data-lucide="check"></i> ${f}</span>`).join('')}
+              </div>
+            </div>
+          ` : ''}
+
+          <!-- Medical Departments Section -->
+          ${departments ? `
+            <div class="detail-section">
+              <div class="detail-section-title"><i data-lucide="activity"></i> Available Departments</div>
+              <div class="tags-container">
+                ${departments.map(d => `<span class="tag-badge" style="border-color: rgba(56, 189, 248, 0.3);"><i data-lucide="stethoscope" style="color: #38bdf8;"></i> ${d}</span>`).join('')}
+              </div>
+            </div>
+          ` : ''}
+
+          <!-- Courses Section -->
+          ${courses ? `
+            <div class="detail-section">
+              <div class="detail-section-title"><i data-lucide="book-open"></i> Courses & Programs Offered</div>
+              <div class="tags-container">
+                ${courses.map(c => `<span class="tag-badge" style="border-color: rgba(168, 85, 247, 0.3);"><i data-lucide="graduation-cap" style="color: #c084fc;"></i> ${c}</span>`).join('')}
+              </div>
+            </div>
+          ` : ''}
+
+          <!-- Cuisines Section -->
+          ${cuisines ? `
+            <div class="detail-section">
+              <div class="detail-section-title"><i data-lucide="utensils-crossed"></i> Cuisines & Specialties</div>
+              <div class="tags-container">
+                ${cuisines.map(cs => `<span class="tag-badge" style="border-color: rgba(245, 158, 11, 0.3);"><i data-lucide="flame" style="color: #fbbf24;"></i> ${cs}</span>`).join('')}
+              </div>
+            </div>
+          ` : ''}
+
+          <!-- Notes & Special Rules Section -->
+          ${item.Notes ? `
+            <div class="notes-box">
+              <i data-lucide="info"></i>
+              <div>
+                <strong style="display: block; margin-bottom: 0.25rem;">Important Notes / Rules</strong>
+                <span>${item.Notes}</span>
+              </div>
+            </div>
+          ` : ''}
+
+          <!-- Location & Contact Card -->
+          <div class="contact-card">
+            <div class="detail-section-title" style="margin-bottom: 1rem;"><i data-lucide="map-pin"></i> Address & Contact Info</div>
+            
+            <div class="contact-row">
+              <i data-lucide="map-pin"></i>
+              <div>
+                <strong>Full Address:</strong><br>
+                ${item.address || 'Address not specified'}${item.city ? ', ' + item.city : ''}${item.state ? ', ' + item.state : ''} ${item.pincode ? '- ' + item.pincode : ''}
+              </div>
+            </div>
+
+            <div class="contact-row">
+              <i data-lucide="phone"></i>
+              <div>
+                <strong>Phone Contact:</strong> ${item.contect_no || 'Not provided'}
+              </div>
+            </div>
+
+            ${item.website ? `
+              <div class="contact-row">
+                <i data-lucide="globe"></i>
+                <div>
+                  <strong>Website:</strong> 
+                  <a href="${item.website.startsWith('http') ? item.website : 'https://' + item.website}" target="_blank" style="color: #38bdf8; text-decoration: underline;">${item.website}</a>
+                </div>
+              </div>
+            ` : ''}
+
+            <div class="contact-actions">
+              ${item.contect_no ? `
+                <a href="tel:${item.contect_no}" class="btn-contact-action">
+                  <i data-lucide="phone-call"></i> Call Now
+                </a>
+              ` : ''}
+              ${item.website ? `
+                <a href="${item.website.startsWith('http') ? item.website : 'https://' + item.website}" target="_blank" class="btn-contact-action">
+                  <i data-lucide="external-link"></i> Visit Website
+                </a>
+              ` : ''}
+            </div>
+          </div>
+
+          <!-- Customer Reviews Section -->
+          <div class="detail-section">
+            <div class="detail-section-title" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+              <span><i data-lucide="star" style="color: #f59e0b;"></i> Customer Reviews</span>
+              <button class="btn-contact-action" style="padding: 0.4rem 0.85rem; font-size: 0.78rem; min-width: auto; flex: initial;" onclick="openReviewPage('${item._id}')">
+                <i data-lucide="message-square-plus"></i> Leave Review
+              </button>
+            </div>
+            <div id="modal-reviews-list-${item._id}">
+              <p style="font-size: 0.85rem; color: var(--text-secondary);"><i data-lucide="loader"></i> Loading reviews...</p>
+            </div>
           </div>
         `;
+
         modal.classList.add("active");
         lucide.createIcons();
+        loadModalReviews(item._id);
+      };
+
+      // Interactive Thumbnail Selector Handler
+      window.switchModalImage = function(thumbEl, url) {
+        const mainImg = document.getElementById("main-modal-img");
+        if (mainImg) mainImg.src = url;
+        document.querySelectorAll(".modal-thumb").forEach(t => t.classList.remove("active"));
+        thumbEl.classList.add("active");
       };
 
       modalClose.addEventListener("click", () => {
         modal.classList.remove("active");
       });
 
-      modal.addEventListener("click", (e) => {
-        if (e.target === modal) modal.classList.remove("active");
-      });
+      // Open "See Reviews" Modal Popup
+      window.openSeeReviewsModal = async function(serviceId) {
+        const service = allServices.find(s => s._id === serviceId);
+        const seeModal = document.getElementById("see-reviews-modal");
+        const seeModalBody = document.getElementById("see-reviews-modal-body");
+        if (!seeModal || !seeModalBody) return;
+
+        const serviceName = service ? service.serviceName : "Service";
+
+        seeModalBody.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem; padding-right: 2rem;">
+            <div>
+              <h3 style="font-size: 1.35rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.25rem;">${serviceName}</h3>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">Customer Reviews & Ratings</p>
+            </div>
+            <button type="button" class="btn-primary" style="padding: 0.45rem 0.85rem; font-size: 0.8rem; flex: initial; min-width: auto; height: auto;" onclick="openAddReviewModal('${serviceId}')">
+              <i data-lucide="message-square-plus"></i> Write Review
+            </button>
+          </div>
+          <div id="popup-reviews-list">
+            <p style="font-size: 0.85rem; color: var(--text-secondary);"><i data-lucide="loader"></i> Loading reviews...</p>
+          </div>
+        `;
+
+        seeModal.classList.add("active");
+        lucide.createIcons();
+
+        try {
+          const res = await fetch('/review/display/' + encodeURIComponent(serviceId));
+          const data = await res.json();
+          const reviews = Array.isArray(data) ? data : ((data && Array.isArray(data.review)) ? data.review : []);
+
+          const container = document.getElementById("popup-reviews-list");
+          if (!container) return;
+
+          if (reviews.length === 0) {
+            container.innerHTML = `
+              <div style="text-align: center; padding: 2.5rem 1rem; color: var(--text-secondary);">
+                <i data-lucide="message-square" style="width: 36px; height: 36px; margin-bottom: 0.5rem; color: var(--text-muted);"></i>
+                <p style="font-size: 0.9rem; margin-bottom: 0.85rem;">No reviews submitted yet for this service.</p>
+                <button type="button" class="btn-primary" style="padding: 0.5rem 1rem; font-size: 0.85rem; height: auto;" onclick="openAddReviewModal('${serviceId}')">
+                  Be the first to leave a review
+                </button>
+              </div>
+            `;
+            lucide.createIcons();
+            return;
+          }
+
+          container.innerHTML = reviews.map(r => {
+            const comment = r.coment || r.Coment || r.Comment || 'No comment provided.';
+            const rating = Number(r.rating) || 5;
+            let stars = '';
+            for (let i = 1; i <= 5; i++) {
+              stars += i <= rating ? '★' : '☆';
+            }
+            const dateStr = r.date ? new Date(r.date).toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' }) : '';
+
+            return `
+              <div style="background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 1rem; margin-bottom: 0.75rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                  <span style="color: #f59e0b; font-size: 1rem; letter-spacing: 1px;">${stars}</span>
+                  ${dateStr ? `<span style="font-size: 0.75rem; color: var(--text-muted);">${dateStr}</span>` : ''}
+                </div>
+                <div style="font-size: 0.9rem; color: var(--text-primary); line-height: 1.5;">${comment}</div>
+              </div>
+            `;
+          }).join('');
+        } catch (err) {
+          console.error("Error loading reviews for popup:", err);
+          const container = document.getElementById("popup-reviews-list");
+          if (container) {
+            container.innerHTML = `<p style="font-size: 0.85rem; color: var(--error);">Failed to load reviews.</p>`;
+          }
+        }
+      };
+
+      // Open "Add Review" Modal Popup
+      window.openAddReviewModal = function(serviceId) {
+        const service = allServices.find(s => s._id === serviceId);
+        const seeModal = document.getElementById("see-reviews-modal");
+        if (seeModal) seeModal.classList.remove("active");
+
+        const addModal = document.getElementById("add-review-modal");
+        const addModalBody = document.getElementById("add-review-modal-body");
+        if (!addModal || !addModalBody) return;
+
+        const serviceName = service ? service.serviceName : "Service";
+
+        addModalBody.innerHTML = `
+          <h3 style="font-size: 1.35rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.25rem;">Write a Review</h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">Sharing feedback for <strong>${serviceName}</strong></p>
+
+          <div id="popup-toast-success" style="display: none; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); color: #34d399; padding: 0.75rem 1rem; border-radius: 10px; font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem; align-items: center; gap: 0.5rem;">
+            <i data-lucide="check-circle-2"></i> Review submitted successfully!
+          </div>
+
+          <form id="popup-add-review-form">
+            <div style="margin-bottom: 1.2rem;">
+              <label style="display: block; font-weight: 700; font-size: 0.875rem; margin-bottom: 0.5rem; color: var(--text-primary);">Your Rating</label>
+              <div style="display: flex; align-items: center; gap: 0.4rem;" id="popup-star-picker">
+                <span data-star="1" style="font-size: 1.75rem; color: #f59e0b; cursor: pointer; user-select: none;">★</span>
+                <span data-star="2" style="font-size: 1.75rem; color: #f59e0b; cursor: pointer; user-select: none;">★</span>
+                <span data-star="3" style="font-size: 1.75rem; color: #f59e0b; cursor: pointer; user-select: none;">★</span>
+                <span data-star="4" style="font-size: 1.75rem; color: #f59e0b; cursor: pointer; user-select: none;">★</span>
+                <span data-star="5" style="font-size: 1.75rem; color: #f59e0b; cursor: pointer; user-select: none;">★</span>
+                <span id="popup-rating-label" style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-left: 0.5rem;">5 Stars - Excellent</span>
+              </div>
+              <input type="hidden" id="popup-rating-val" value="5" />
+            </div>
+
+            <div style="margin-bottom: 1.25rem;">
+              <label for="popup-coment-val" style="display: block; font-weight: 700; font-size: 0.875rem; margin-bottom: 0.5rem; color: var(--text-primary);">Your Feedback</label>
+              <textarea id="popup-coment-val" style="width: 100%; min-height: 110px; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 0.85rem; color: var(--text-primary); outline: none; font-size: 0.9rem; resize: vertical;" placeholder="Write your authentic experience with this service..." required></textarea>
+            </div>
+
+            <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
+              <button type="button" class="btn-contact-action" style="background: rgba(255,255,255,0.08); border: 1px solid var(--border-color); color: var(--text-primary);" onclick="document.getElementById('add-review-modal').classList.remove('active')">Cancel</button>
+              <button type="submit" class="btn-primary" style="padding: 0.65rem 1.25rem; font-size: 0.9rem; height: auto; flex: initial; min-width: auto;">Submit Review</button>
+            </div>
+          </form>
+        `;
+
+        addModal.classList.add("active");
+        lucide.createIcons();
+
+        const starSpans = addModalBody.querySelectorAll("#popup-star-picker span[data-star]");
+        const ratingInput = document.getElementById("popup-rating-val");
+        const ratingLabel = document.getElementById("popup-rating-label");
+
+        function setStars(score) {
+          const num = Number(score) || 5;
+          ratingInput.value = num;
+          const labels = { 1: "1 Star - Poor", 2: "2 Stars - Fair", 3: "3 Stars - Good", 4: "4 Stars - Very Good", 5: "5 Stars - Excellent" };
+          ratingLabel.textContent = labels[num] || `${num} Stars`;
+
+          starSpans.forEach(s => {
+            const v = Number(s.getAttribute("data-star"));
+            s.style.color = v <= num ? "#f59e0b" : "#4b5563";
+          });
+        }
+
+        starSpans.forEach(s => {
+          s.addEventListener("click", () => setStars(s.getAttribute("data-star")));
+        });
+
+        const form = document.getElementById("popup-add-review-form");
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const comentVal = document.getElementById("popup-coment-val").value;
+          const ratingVal = Number(ratingInput.value) || 5;
+
+          try {
+            const res = await fetch('/review/' + encodeURIComponent(serviceId), {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                Coment: comentVal,
+                coment: comentVal,
+                rating: ratingVal
+              })
+            });
+
+            const result = await res.json();
+            if (res.ok && (result.success !== false)) {
+              const toast = document.getElementById("popup-toast-success");
+              if (toast) toast.style.display = "flex";
+              form.reset();
+              setTimeout(() => {
+                addModal.classList.remove("active");
+                openSeeReviewsModal(serviceId);
+              }, 1200);
+            } else {
+              alert(result.error || "Failed to submit review");
+            }
+          } catch (err) {
+            console.error("Error submitting review popup:", err);
+            alert("Error submitting review.");
+          }
+        });
+      };
+
+      // Modal Close Listeners
+      const seeClose = document.getElementById("see-reviews-close");
+      const seeModalEl = document.getElementById("see-reviews-modal");
+      if (seeClose && seeModalEl) {
+        seeClose.addEventListener("click", () => seeModalEl.classList.remove("active"));
+        seeModalEl.addEventListener("click", (e) => { if (e.target === seeModalEl) seeModalEl.classList.remove("active"); });
+      }
+
+      const addClose = document.getElementById("add-review-close");
+      const addModalEl = document.getElementById("add-review-modal");
+      if (addClose && addModalEl) {
+        addClose.addEventListener("click", () => addModalEl.classList.remove("active"));
+        addModalEl.addEventListener("click", (e) => { if (e.target === addModalEl) addModalEl.classList.remove("active"); });
+      }
 
       // Initial load
       fetchServices();

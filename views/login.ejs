@@ -12,14 +12,15 @@
   
   <style>
     :root {
-      --bg-color: #0a0a0a;
-      --card-bg: #121212;
-      --border-color: #262626;
-      --text-primary: #ffffff;
-      --text-secondary: #a3a3a3;
-      --input-bg: #1a1a1a;
-      --accent: #ffffff;
-      --accent-hover: #e5e5e5;
+      --bg-color: #ffffff;
+      --card-bg: #ffffff;
+      --border-color: #e2e8f0;
+      --border-focus: #000000;
+      --text-primary: #0f172a;
+      --text-secondary: #64748b;
+      --input-bg: #f8fafc;
+      --accent: #000000;
+      --accent-hover: #1e293b;
     }
 
     * {
@@ -39,33 +40,23 @@
       overflow-y: auto;
       position: relative;
       padding: 2rem 1.25rem;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(0, 0, 0, 0.03) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(0, 0, 0, 0.03) 0%, transparent 40%);
     }
 
-    /* Subtle background grid pattern for depth */
+    /* Subtle background grid pattern */
     body::before {
       content: "";
       position: absolute;
       width: 100%;
       height: 100%;
       background-image: 
-        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-      background-size: 40px 40px;
+        linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+      background-size: 32px 32px;
       background-position: center;
       z-index: 1;
-      pointer-events: none;
-    }
-
-    /* Radial gradient overlay for lighting effect */
-    body::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at 50% 50%, transparent 20%, rgba(10, 10, 10, 0.9) 80%);
-      z-index: 2;
       pointer-events: none;
     }
 
@@ -74,62 +65,63 @@
       z-index: 10;
       background-color: var(--card-bg);
       border: 1px solid var(--border-color);
-      border-radius: 16px;
-      padding: 2.5rem 2rem;
+      border-radius: 20px;
+      padding: 2.25rem;
       width: 100%;
-      max-width: 400px;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      max-width: 420px;
+      box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.08);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
     .card:hover {
       transform: translateY(-2px);
-      box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 255, 255, 0.02);
+      box-shadow: 0 25px 50px -15px rgba(0, 0, 0, 0.12);
     }
 
     .header {
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
       text-align: center;
     }
 
     .logo {
-      width: 36px;
-      height: 36px;
-      border: 2px solid var(--text-primary);
-      border-radius: 8px;
+      width: 42px;
+      height: 42px;
+      background: #000000;
+      color: #ffffff;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 0.75rem auto;
-      font-weight: 700;
-      font-size: 1.1rem;
-      letter-spacing: -1px;
+      margin: 0 auto 0.85rem auto;
+      font-weight: 800;
+      font-size: 1.25rem;
     }
 
     .title {
-      font-size: 1.5rem;
-      font-weight: 700;
+      font-size: 1.6rem;
+      font-weight: 800;
       letter-spacing: -0.025em;
       margin-bottom: 0.35rem;
+      color: var(--text-primary);
     }
 
     .subtitle {
-      font-size: 0.825rem;
+      font-size: 0.875rem;
       color: var(--text-secondary);
     }
 
     .form-group {
-      margin-bottom: 1.25rem;
+      margin-bottom: 1rem;
       position: relative;
     }
 
     .form-group label {
       display: block;
       font-size: 0.75rem;
-      font-weight: 600;
+      font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
       color: var(--text-secondary);
       transition: color 0.2s ease;
     }
@@ -138,35 +130,31 @@
       width: 100%;
       background-color: var(--input-bg);
       border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 0.75rem 0.875rem;
+      border-radius: 10px;
+      padding: 0.8rem 0.95rem;
       color: var(--text-primary);
-      font-size: 0.9rem;
+      font-size: 0.925rem;
       outline: none;
       transition: all 0.2s ease;
     }
 
     .form-group input:focus {
-      border-color: var(--accent);
-      background-color: #222222;
-      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.05);
-    }
-
-    .form-group input:focus + label {
-      color: var(--text-primary);
+      border-color: var(--border-focus);
+      background-color: #ffffff;
+      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
     }
 
     .btn-submit {
       width: 100%;
       background-color: var(--accent);
-      color: #000000;
+      color: #ffffff;
       border: none;
-      border-radius: 8px;
-      padding: 0.75rem;
-      font-size: 0.9rem;
-      font-weight: 600;
+      border-radius: 10px;
+      padding: 0.85rem;
+      font-size: 0.925rem;
+      font-weight: 700;
       cursor: pointer;
-      margin-top: 0.5rem;
+      margin-top: 0.85rem;
       margin-bottom: 1.25rem;
       transition: all 0.2s ease;
     }
@@ -183,18 +171,12 @@
     /* JSON Display Area */
     .json-container {
       display: none;
-      background-color: #1a1a1a;
+      background-color: #f8fafc;
       border: 1px solid var(--border-color);
-      border-radius: 8px;
+      border-radius: 10px;
       padding: 1rem;
       margin-bottom: 1.25rem;
       font-size: 0.8rem;
-      animation: fadeIn 0.3s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-4px); }
-      to { opacity: 1; transform: translateY(0); }
     }
 
     .json-container h3 {
@@ -203,11 +185,11 @@
       letter-spacing: 0.05em;
       color: var(--text-secondary);
       margin-bottom: 0.5rem;
-      font-weight: 600;
+      font-weight: 700;
     }
 
     .json-container pre {
-      color: #38bdf8;
+      color: #0f172a;
       font-family: 'Courier New', Courier, monospace;
       white-space: pre-wrap;
       word-break: break-all;
@@ -216,19 +198,19 @@
     .footer-text {
       text-align: center;
       margin-top: 1.5rem;
-      font-size: 0.8125rem;
+      font-size: 0.85rem;
       color: var(--text-secondary);
     }
 
     .footer-link {
       color: var(--text-primary);
       text-decoration: none;
-      font-weight: 600;
-      transition: opacity 0.2s ease;
+      font-weight: 700;
+      border-bottom: 1.5px solid #000000;
     }
 
     .footer-link:hover {
-      opacity: 0.8;
+      opacity: 0.7;
     }
   </style>
 </head>
