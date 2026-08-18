@@ -1143,6 +1143,10 @@
           <i data-lucide="layers"></i> My Services
         </button>
 
+        <a href="/Createoffer" class="nav-tab-btn" style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;">
+          <i data-lucide="tag"></i> Create Offer
+        </a>
+
         <button class="btn-add-nav" id="tabAddServiceBtn">
           <i data-lucide="plus"></i> Add Service
         </button>
@@ -1737,6 +1741,26 @@
             </div>
           </div>
         </div>
+
+        <!-- Active Promotional Offers Section -->
+        <div style="margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border-color);">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.85rem;">
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.45rem;">
+              <i data-lucide="tag" style="width: 16px; height: 16px; color: #000000;"></i> Active Promotional Offers
+            </div>
+            <a id="modalAddOfferLink" href="/Createoffer" style="font-size: 0.78rem; font-weight: 700; color: #000000; text-decoration: underline;">+ Create Offer</a>
+          </div>
+          <div id="modalOffersContainer">
+            <!-- Dynamically populated via AJAX fetch to /Createoffer/display/:ID -->
+          </div>
+        </div>
+
+        <!-- Modal Action Footer -->
+        <div style="margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end; align-items: center; gap: 1rem;">
+          <a id="modalCreateOfferBtn" href="/Createoffer" class="btn-primary" style="display: inline-flex; align-items: center; gap: 0.5rem; background: var(--accent); color: #ffffff; padding: 0.65rem 1.25rem; border-radius: 10px; font-weight: 700; text-decoration: none; font-size: 0.875rem; transition: all 0.2s ease;">
+            <i data-lucide="tag"></i> Create Offer for this Service
+          </a>
+        </div>
       </div>
     </div>
   </div>
@@ -2064,6 +2088,16 @@
                   <span>${escapeHtml([item.city, item.state].filter(Boolean).join(', ')) || 'Location not specified'}</span>
                 </div>
               </div>
+
+              <!-- Action Footer -->
+              <div style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;" onclick="event.stopPropagation();">
+                <button type="button" onclick="openServiceModal(${idx})" style="background: var(--input-bg); color: var(--text-primary); border: 1px solid var(--border-color); padding: 0.4rem 0.75rem; border-radius: 8px; font-size: 0.78rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 0.3rem;">
+                  <i data-lucide="tag" style="width: 14px; height: 14px;"></i> View Offers
+                </button>
+                <a href="/Createoffer/${encodeURIComponent(item._id || '')}" style="display: inline-flex; align-items: center; gap: 0.35rem; background: #0f172a; color: #ffffff; padding: 0.4rem 0.85rem; border-radius: 8px; font-size: 0.78rem; font-weight: 700; text-decoration: none; transition: all 0.2s ease;">
+                  <i data-lucide="plus-circle" style="width: 14px; height: 14px;"></i> Create Offer
+                </a>
+              </div>
             </div>
           </div>
         `;
@@ -2132,6 +2166,14 @@
         modalWebsite.innerHTML = `<a href="${escapeHtml(item.website)}" target="_blank" style="color:var(--text-primary); text-decoration:underline;">${escapeHtml(item.website)}</a>`;
       } else {
         modalWebsite.textContent = 'Not specified';
+      }
+
+      const modalCreateOfferBtn = document.getElementById('modalCreateOfferBtn');
+      const modalAddOfferLink = document.getElementById('modalAddOfferLink');
+      if (item._id) {
+        if (modalCreateOfferBtn) modalCreateOfferBtn.href = `/Createoffer/${encodeURIComponent(item._id)}`;
+        if (modalAddOfferLink) modalAddOfferLink.href = `/Createoffer/${encodeURIComponent(item._id)}`;
+        loadOffersForModal(item._id);
       }
 
       // Discriminator Modal Rendering
@@ -2215,7 +2257,65 @@
       }
 
       modalOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
     };
+
+    async function loadOffersForModal(serviceId) {
+      const container = document.getElementById('modalOffersContainer');
+      if (!container) return;
+
+      container.innerHTML = `
+        <div style="padding: 1rem; text-align: center; color: var(--text-secondary); font-size: 0.825rem;">
+          <i data-lucide="loader-2" class="spin" style="animation: spin 1s linear infinite; width:16px; height:16px;"></i> Loading active offers...
+        </div>
+      `;
+      lucide.createIcons();
+
+      try {
+        const res = await fetch(`/Createoffer/display/${encodeURIComponent(serviceId)}`);
+        const offers = await res.json();
+
+        if (!offers || !Array.isArray(offers) || offers.length === 0) {
+          container.innerHTML = `
+            <div style="padding: 1.15rem; text-align: center; background: #f8fafc; border: 1.5px dashed #cbd5e1; border-radius: 12px; color: var(--text-secondary); font-size: 0.825rem;">
+              <i data-lucide="tag" style="width:18px; height:18px; color:#94a3b8; margin-bottom:0.25rem;"></i>
+              <div>No active offers created for this service yet.</div>
+              <a href="/Createoffer/${encodeURIComponent(serviceId)}" style="display:inline-block; margin-top:0.45rem; color:#000000; font-weight:700; font-size:0.78rem; text-decoration:underline;">+ Create First Offer</a>
+            </div>
+          `;
+          lucide.createIcons();
+          return;
+        }
+
+        container.innerHTML = offers.map(off => {
+          const expDate = off.expiresAt ? new Date(off.expiresAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'No Expiry';
+          return `
+            <div style="background: #000000; color: #ffffff; padding: 1.1rem; border-radius: 14px; margin-bottom: 0.75rem; box-shadow: 0 4px 14px rgba(0,0,0,0.15); position: relative;">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.4rem;">
+                <span style="background: #ffffff; color: #000000; font-size: 0.68rem; font-weight: 800; padding: 0.2rem 0.55rem; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.05em;">
+                  ${escapeHtml(off.discountType || 'Percentage')}
+                </span>
+                <span style="font-size: 0.75rem; opacity: 0.85; font-weight: 600; display: inline-flex; align-items: center; gap: 0.3rem;">
+                  <i data-lucide="clock" style="width:13px; height:13px;"></i> Expires: ${expDate}
+                </span>
+              </div>
+              <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.3rem; color: #ffffff;">${escapeHtml(off.title || 'Untitled Offer')}</h4>
+              <p style="font-size: 0.825rem; color: #a1a1aa; line-height: 1.4; margin-bottom: 0.5rem;">${escapeHtml(off.description || '')}</p>
+              ${off.whenApply ? `
+                <div style="font-size: 0.75rem; color: #a1a1aa; font-weight: 600; display: flex; align-items: center; gap: 0.35rem; border-top: 1px solid rgba(255,255,255,0.15); padding-top: 0.45rem;">
+                  <i data-lucide="shield-check" style="width:14px; height:14px; color:#ffffff;"></i> Rules: ${escapeHtml(off.whenApply)}
+                </div>
+              ` : ''}
+            </div>
+          `;
+        }).join('');
+        lucide.createIcons();
+
+      } catch (err) {
+        console.error("Error loading offers:", err);
+        container.innerHTML = `<div style="color: #ef4444; font-size: 0.8rem; padding: 0.5rem;">Failed to load active offers.</div>`;
+      }
+    }
 
     window.setModalHero = function (url, el) {
       modalHeroImage.src = url;

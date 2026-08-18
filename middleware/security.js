@@ -15,6 +15,7 @@ app.use("/",(req,res,next)=>{
     let role =  req.cookies.user
     if (email && role) {
         if (check(email) && check(role)) {
+            console.log("email and role is valide");
             return next();
         }
         else{
@@ -24,6 +25,5 @@ app.use("/",(req,res,next)=>{
     else{
             return res.render('login.ejs')
     }
-    next()
 })
 module.exports = app;

@@ -30,6 +30,9 @@ function hasRole(url,role){
     else if(url.startsWith("/review/display") && role ==U){
         return true;
     }
+    else if(url.startsWith("/Createoffer") && role==B){
+        return true;
+    }
     return false;
 }
 
@@ -39,13 +42,11 @@ app.use((req,res,next)=>{
     let role =  decrypt(req.cookies.user) ;
     
     if(hasRole(req.url,role)){
+        console.log("Authorize request")
         next();
     }
     else{
-        return res.json({
-            success:false,
-            error:"unauthorize"
-        })
+        return res.redirect(302,"/login")
     }
     
     
