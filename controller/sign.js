@@ -11,7 +11,7 @@ const express = require('express');
 const User = require('../Entity/user');
 const app = express.Router();
 app.get("/",(req,res,next)=>{
-    return res.render('index.ejs')
+    return res.render("index.ejs")
 })
 app.post('/',async(req,res,next)=>{
     console.log(req.body);

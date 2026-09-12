@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= typeof offer !== 'undefined' && offer && offer.title ? offer.title + ' - Offer Details | CityMate' : 'Offer Details - CityMate' %></title>
+  
+  <!-- Modern Typography Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --border-color: #e2e8f0;
+      --border-hover: #cbd5e1;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --input-bg: #f1f5f9;
+      --accent: #2563eb;
+      --accent-hover: #1d4ed8;
+      --accent-light: #eff6ff;
+      --success: #059669;
+      --success-light: #ecfdf5;
+      --warning: #d97706;
+      --warning-light: #fffbeb;
+      --danger: #dc2626;
+      --danger-light: #fef2f2;
+      --badge-bg: #f1f5f9;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 12px 24px -4px rgba(0, 0, 0, 0.08);
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Geometric Background Pattern */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(37, 99, 235, 0.04) 0%, transparent 40%),
+        radial-gradient(circle at 85% 85%, rgba(5, 150, 105, 0.04) 0%, transparent 40%),
+        linear-gradient(rgba(0, 0, 0, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.015) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .app-container {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Header Navbar */
+    .navbar {
+      background-color: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+
+    .brand-icon {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: white;
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+    }
+
+    .brand-text {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-text span {
+      color: var(--accent);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.2rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+      background-color: white;
+      color: var(--text-primary);
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn-back:hover {
+      background-color: var(--input-bg);
+      border-color: var(--border-hover);
+      transform: translateY(-1px);
+    }
+
+    /* Search/ID Header Bar */
+    .id-search-box {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--input-bg);
+      padding: 0.35rem 0.5rem 0.35rem 0.85rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+    }
+
+    .id-search-box input {
+      border: none;
+      background: transparent;
+      outline: none;
+      font-size: 0.85rem;
+      width: 180px;
+      color: var(--text-primary);
+    }
+
+    .id-search-box button {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.4rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .id-search-box button:hover {
+      background: var(--accent-hover);
+    }
+
+    /* Main Container */
+    .main-content {
+      max-width: 900px;
+      margin: 2.5rem auto;
+      padding: 0 1.5rem;
+      width: 100%;
+      flex: 1;
+    }
+
+    /* Skeleton Loading State */
+    .skeleton-loader {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .skeleton-card {
+      background: white;
+      border-radius: var(--radius-md);
+      padding: 2rem;
+      border: 1px solid var(--border-color);
+    }
+
+    .skeleton-line {
+      height: 20px;
+      background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+      background-size: 200% 100%;
+      animation: skeleton-wave 1.5s infinite;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+    }
+
+    @keyframes skeleton-wave {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* Error Card */
+    .error-card {
+      background: white;
+      border: 1px solid #fca5a5;
+      border-radius: var(--radius-md);
+      padding: 3rem 2rem;
+      text-align: center;
+      box-shadow: var(--shadow-md);
+    }
+
+    .error-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--danger-light);
+      color: var(--danger);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.25rem;
+    }
+
+    .error-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .error-desc {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Offer Display Hero Card */
+    .offer-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .offer-hero {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: white;
+      padding: 2.5rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .offer-hero::after {
+      content: "";
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.25) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .offer-tags {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+    }
+
+    .tag-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .tag-percentage {
+      background-color: rgba(37, 99, 235, 0.25);
+      color: #93c5fd;
+      border: 1px solid rgba(147, 197, 253, 0.3);
+    }
+
+    .tag-fixed {
+      background-color: rgba(5, 150, 105, 0.25);
+      color: #6ee7b7;
+      border: 1px solid rgba(110, 231, 183, 0.3);
+    }
+
+    .tag-status-active {
+      background-color: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+      border: 1px solid rgba(52, 211, 153, 0.3);
+    }
+
+    .tag-status-expired {
+      background-color: rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
+      border: 1px solid rgba(252, 165, 165, 0.3);
+    }
+
+    .offer-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.02em;
+    }
+
+    .offer-id-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #94a3b8;
+      font-size: 0.85rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .offer-id-code {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-family: monospace;
+      color: #cbd5e1;
+      user-select: all;
+    }
+
+    /* Countdown Timer Widget */
+    .timer-container {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-md);
+      padding: 1.25rem 1.5rem;
+      margin-top: 1.75rem;
+    }
+
+    .timer-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #94a3b8;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .timer-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
+      text-align: center;
+    }
+
+    .timer-box {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 0.6rem;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .timer-val {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1;
+    }
+
+    .timer-unit {
+      font-size: 0.7rem;
+      color: #94a3b8;
+      margin-top: 0.25rem;
+      text-transform: uppercase;
+    }
+
+    /* Details Body */
+    .offer-body {
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+
+    .detail-block {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .detail-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .detail-value {
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
+
+    .conditions-box {
+      background: var(--input-bg);
+      border-left: 4px solid var(--accent);
+      padding: 1rem 1.25rem;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    /* Service Info Section */
+    .service-card {
+      background: var(--input-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .service-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .service-icon-box {
+      width: 42px;
+      height: 42px;
+      background: var(--card-bg);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      border: 1px solid var(--border-color);
+    }
+
+    .service-name {
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .service-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-top: 0.25rem;
+    }
+
+    .service-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    /* Action Buttons Footer */
+    .action-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .btn-primary {
+      flex: 1;
+      min-width: 200px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.9rem 1.5rem;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+      padding: 0.9rem 1.5rem;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-secondary:hover {
+      background: var(--input-bg);
+      border-color: var(--border-hover);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: #0f172a;
+      color: white;
+      padding: 0.85rem 1.5rem;
+      border-radius: var(--radius-sm);
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      z-index: 1000;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    @media (max-width: 640px) {
+      .navbar {
+        padding: 0.75rem 1rem;
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: stretch;
+      }
+      .nav-actions {
+        justify-content: space-between;
+      }
+      .offer-title {
+        font-size: 1.6rem;
+      }
+      .timer-val {
+        font-size: 1.1rem;
+      }
+      .action-row {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app-container">
+    <!-- Navbar -->
+    <nav class="navbar">
+      <a href="/userdashboard" class="brand">
+        <div class="brand-icon">
+          <i data-lucide="map-pin"></i>
+        </div>
+        <span class="brand-text">City<span>Mate</span></span>
+      </a>
+
+      <div class="nav-actions">
+        <div class="id-search-box">
+          <i data-lucide="search" style="width: 14px; height: 14px; color: var(--text-muted);"></i>
+          <input type="text" id="input-offer-id" placeholder="Enter Offer ID..." />
+          <button id="btn-fetch-id">Lookup</button>
+        </div>
+
+        <a href="/userdashboard" class="btn-back">
+          <i data-lucide="arrow-left" style="width: 16px; height: 16px;"></i>
+          <span>Dashboard</span>
+        </a>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Loading Skeleton Screen -->
+      <div id="loading-state" class="skeleton-loader">
+        <div class="skeleton-card">
+          <div class="skeleton-line" style="width: 30%; height: 28px;"></div>
+          <div class="skeleton-line" style="width: 75%; height: 40px;"></div>
+          <div class="skeleton-line" style="width: 50%; height: 20px;"></div>
+          <div class="skeleton-line" style="width: 100%; height: 80px; margin-top: 1.5rem;"></div>
+        </div>
+      </div>
+
+      <!-- Error Screen -->
+      <div id="error-state" class="error-card" style="display: none;">
+        <div class="error-icon">
+          <i data-lucide="alert-circle" style="width: 32px; height: 32px;"></i>
+        </div>
+        <h2 class="error-title" id="error-title-text">Offer Not Found</h2>
+        <p class="error-desc" id="error-desc-text">We couldn't locate any offer matching the specified ID.</p>
+        <div style="display: flex; gap: 0.75rem; justify-content: center;">
+          <a href="/userdashboard" class="btn-secondary">Return to Dashboard</a>
+        </div>
+      </div>
+
+      <!-- Offer Main Card -->
+      <div id="offer-view" class="offer-card" style="display: none;">
+        <!-- Hero Header -->
+        <div class="offer-hero">
+          <div class="offer-tags">
+            <span id="badge-discount-type" class="tag-badge tag-percentage">
+              <i data-lucide="percent" style="width: 12px; height: 12px;"></i>
+              <span id="text-discount-type">Percentage</span>
+            </span>
+            <span id="badge-status" class="tag-badge tag-status-active">
+              <i data-lucide="clock" style="width: 12px; height: 12px;"></i>
+              <span id="text-status">Active</span>
+            </span>
+          </div>
+
+          <h1 id="offer-title" class="offer-title">Loading Offer...</h1>
+
+          <div class="offer-id-row">
+            <span>Offer ID:</span>
+            <code id="offer-id-val" class="offer-id-code">N/A</code>
+            <button id="btn-copy-id" style="background: none; border: none; color: #94a3b8; cursor: pointer; display: flex; align-items: center;" title="Copy ID">
+              <i data-lucide="copy" style="width: 14px; height: 14px;"></i>
+            </button>
+          </div>
+
+          <!-- Countdown Timer Widget -->
+          <div class="timer-container">
+            <div class="timer-label">
+              <i data-lucide="hourglass" style="width: 14px; height: 14px;"></i>
+              <span>Time Remaining Until Expiration</span>
+            </div>
+            <div class="timer-grid">
+              <div class="timer-box">
+                <div id="timer-days" class="timer-val">00</div>
+                <div class="timer-unit">Days</div>
+              </div>
+              <div class="timer-box">
+                <div id="timer-hours" class="timer-val">00</div>
+                <div class="timer-unit">Hours</div>
+              </div>
+              <div class="timer-box">
+                <div id="timer-mins" class="timer-val">00</div>
+                <div class="timer-unit">Mins</div>
+              </div>
+              <div class="timer-box">
+                <div id="timer-secs" class="timer-val">00</div>
+                <div class="timer-unit">Secs</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Body Details -->
+        <div class="offer-body">
+          <!-- Description -->
+          <div class="detail-block">
+            <span class="detail-label">
+              <i data-lucide="file-text" style="width: 14px; height: 14px;"></i>
+              Description & Highlights
+            </span>
+            <p id="offer-desc" class="detail-value">No detailed description available.</p>
+          </div>
+
+          <!-- When to Apply -->
+          <div class="detail-block">
+            <span class="detail-label">
+              <i data-lucide="check-circle-2" style="width: 14px; height: 14px;"></i>
+              Applicability & Criteria
+            </span>
+            <div id="offer-when-apply" class="conditions-box">
+              Valid on eligible bookings and services.
+            </div>
+          </div>
+
+          <!-- Expiry Date -->
+          <div class="detail-block">
+            <span class="detail-label">
+              <i data-lucide="calendar" style="width: 14px; height: 14px;"></i>
+              Expiration Date
+            </span>
+            <p id="offer-expires-date" class="detail-value" style="font-weight: 600; color: var(--text-primary);">
+              N/A
+            </p>
+          </div>
+
+          <!-- Associated Service Section -->
+          <div id="service-section" class="detail-block" style="display: none;">
+            <span class="detail-label">
+              <i data-lucide="store" style="width: 14px; height: 14px;"></i>
+              Associated Service Partner
+            </span>
+            <div class="service-card">
+              <div class="service-header">
+                <div class="service-icon-box">
+                  <i data-lucide="briefcase" style="width: 20px; height: 20px;"></i>
+                </div>
+                <div>
+                  <div id="service-name" class="service-name">Service Partner</div>
+                  <div class="service-meta">
+                    <span id="service-location" class="service-meta-item">
+                      <i data-lucide="map-pin" style="width: 12px; height: 12px;"></i>
+                      <span>Location</span>
+                    </span>
+                    <span id="service-contact" class="service-meta-item">
+                      <i data-lucide="phone" style="width: 12px; height: 12px;"></i>
+                      <span>Contact</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="action-row">
+            <button id="btn-claim-offer" class="btn-primary">
+              <i data-lucide="ticket" style="width: 18px; height: 18px;"></i>
+              <span>Claim / Redeem Offer</span>
+            </button>
+
+            <button id="btn-share-offer" class="btn-secondary">
+              <i data-lucide="share-2" style="width: 16px; height: 16px;"></i>
+              <span>Share Offer</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast">
+    <i data-lucide="check-circle" style="width: 18px; height: 18px; color: #34d399;"></i>
+    <span id="toast-message">Action successful!</span>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      lucide.createIcons();
+
+      // Elements
+      const loadingState = document.getElementById("loading-state");
+      const errorState = document.getElementById("error-state");
+      const offerView = document.getElementById("offer-view");
+
+      const inputOfferId = document.getElementById("input-offer-id");
+      const btnFetchId = document.getElementById("btn-fetch-id");
+
+      const badgeDiscountType = document.getElementById("badge-discount-type");
+      const textDiscountType = document.getElementById("text-discount-type");
+      const badgeStatus = document.getElementById("badge-status");
+      const textStatus = document.getElementById("text-status");
+
+      const offerTitle = document.getElementById("offer-title");
+      const offerIdVal = document.getElementById("offer-id-val");
+      const btnCopyId = document.getElementById("btn-copy-id");
+      const offerDesc = document.getElementById("offer-desc");
+      const offerWhenApply = document.getElementById("offer-when-apply");
+      const offerExpiresDate = document.getElementById("offer-expires-date");
+
+      const timerDays = document.getElementById("timer-days");
+      const timerHours = document.getElementById("timer-hours");
+      const timerMins = document.getElementById("timer-mins");
+      const timerSecs = document.getElementById("timer-secs");
+
+      const serviceSection = document.getElementById("service-section");
+      const serviceName = document.getElementById("service-name");
+      const serviceLocation = document.getElementById("service-location");
+      const serviceContact = document.getElementById("service-contact");
+
+      const btnClaimOffer = document.getElementById("btn-claim-offer");
+      const btnShareOffer = document.getElementById("btn-share-offer");
+      const toast = document.getElementById("toast");
+      const toastMessage = document.getElementById("toast-message");
+
+      let timerInterval = null;
+      let currentOffer = null;
+
+      // Toast helper
+      function showToast(msg) {
+        toastMessage.textContent = msg;
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 3000);
+      }
+
+      // Check if server pre-rendered offer object
+      const serverPreRenderedOffer = <%- JSON.stringify(typeof offer !== 'undefined' && offer ? offer : null) %>;
+
+      // Extract ID from URL path or Query string
+      function getOfferIdFromURL() {
+        const queryId = new URLSearchParams(window.location.search).get("id");
+        if (queryId) return queryId;
+
+        const pathParts = window.location.pathname.split("/").filter(Boolean);
+        const lastPart = pathParts[pathParts.length - 1];
+
+        // Check if last part looks like a MongoDB ObjectId or ID parameter
+        if (lastPart && lastPart !== "display" && lastPart !== "dashboard_U.ejs" && lastPart !== "display.ejs") {
+          return lastPart;
+        }
+
+        return null;
+      }
+
+      // Fetch offer from API: /userdashboard/display/:ID
+      async function loadOfferData(id) {
+        if (!id) {
+          showError("No Offer ID Provided", "Please enter a valid Offer ID in the search bar above.");
+          return;
+        }
+
+        loadingState.style.display = "flex";
+        errorState.style.display = "none";
+        offerView.style.display = "none";
+
+        try {
+          // Attempt fetching from /userdashboard/display/:ID or /display/:ID
+          let res = await fetch("/userdashboard/display/" + encodeURIComponent(id));
+          if (!res.ok) {
+            res = await fetch("/display/" + encodeURIComponent(id));
+          }
+
+          if (!res.ok) {
+            throw new Error(`Server returned status ${res.status}`);
+          }
+
+          const data = await res.json();
+          let targetOffer = data;
+          if (Array.isArray(data)) {
+            if (data.length === 0) {
+              throw new Error("No active offers found for this service.");
+            }
+            targetOffer = data[0];
+          }
+
+          if (!targetOffer || Object.keys(targetOffer).length === 0 || targetOffer.error) {
+            throw new Error(targetOffer ? targetOffer.error : "Offer not found");
+          }
+
+          currentOffer = targetOffer;
+          renderOffer(targetOffer);
+        } catch (err) {
+          console.error("Error fetching offer:", err);
+          showError("Offer Not Found", `Could not retrieve offer details for ID "${id}".`);
+        }
+      }
+
+      function showError(title, msg) {
+        loadingState.style.display = "none";
+        offerView.style.display = "none";
+        errorState.style.display = "block";
+        document.getElementById("error-title-text").textContent = title;
+        document.getElementById("error-desc-text").textContent = msg;
+      }
+
+      function renderOffer(offer) {
+        loadingState.style.display = "none";
+        errorState.style.display = "none";
+        offerView.style.display = "block";
+
+        // Title & ID
+        offerTitle.textContent = offer.title || "Untitled Offer";
+        offerIdVal.textContent = offer._id || "N/A";
+        inputOfferId.value = offer._id || "";
+
+        // Description & Conditions
+        offerDesc.textContent = offer.description || "No description provided.";
+        offerWhenApply.textContent = offer.whenApply || "Standard terms and conditions apply.";
+
+        // Discount Type Badge
+        const isFixed = (offer.discountType || "").toLowerCase() === "fixed";
+        textDiscountType.textContent = offer.discountType ? `${offer.discountType} Discount` : "Special Offer";
+        if (isFixed) {
+          badgeDiscountType.className = "tag-badge tag-fixed";
+        } else {
+          badgeDiscountType.className = "tag-badge tag-percentage";
+        }
+
+        // Expiration & Timer
+        if (offer.expiresAt) {
+          const expDate = new Date(offer.expiresAt);
+          offerExpiresDate.textContent = expDate.toLocaleString(undefined, {
+            dateStyle: 'full',
+            timeStyle: 'short'
+          });
+          startCountdown(expDate);
+        } else {
+          offerExpiresDate.textContent = "No Expiration Date";
+          setTimerValues(0, 0, 0, 0);
+          updateStatus(true);
+        }
+
+        // Service Details
+        if (offer.serviceDetail && typeof offer.serviceDetail === "object") {
+          serviceSection.style.display = "block";
+          serviceName.textContent = offer.serviceDetail.serviceName || "Partner Service";
+          
+          const loc = [offer.serviceDetail.city, offer.serviceDetail.state].filter(Boolean).join(", ");
+          serviceLocation.querySelector("span").textContent = loc || "Location info unavailable";
+          serviceContact.querySelector("span").textContent = offer.serviceDetail.contect_no || offer.serviceDetail.phone || "No contact info";
+        } else {
+          serviceSection.style.display = "none";
+        }
+
+        lucide.createIcons();
+      }
+
+      function updateStatus(isActive) {
+        if (isActive) {
+          badgeStatus.className = "tag-badge tag-status-active";
+          textStatus.textContent = "Active";
+        } else {
+          badgeStatus.className = "tag-badge tag-status-expired";
+          textStatus.textContent = "Expired";
+        }
+        lucide.createIcons();
+      }
+
+      function setTimerValues(d, h, m, s) {
+        timerDays.textContent = String(d).padStart(2, '0');
+        timerHours.textContent = String(h).padStart(2, '0');
+        timerMins.textContent = String(m).padStart(2, '0');
+        timerSecs.textContent = String(s).padStart(2, '0');
+      }
+
+      function startCountdown(expiryDate) {
+        if (timerInterval) clearInterval(timerInterval);
+
+        function update() {
+          const now = new Date().getTime();
+          const distance = expiryDate.getTime() - now;
+
+          if (distance <= 0) {
+            clearInterval(timerInterval);
+            setTimerValues(0, 0, 0, 0);
+            updateStatus(false);
+            return;
+          }
+
+          updateStatus(true);
+
+          const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+          setTimerValues(days, hours, minutes, seconds);
+        }
+
+        update();
+        timerInterval = setInterval(update, 1000);
+      }
+
+      // Event Listeners
+      btnFetchId.addEventListener("click", () => {
+        const val = inputOfferId.value.trim();
+        if (val) loadOfferData(val);
+      });
+
+      inputOfferId.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          const val = inputOfferId.value.trim();
+          if (val) loadOfferData(val);
+        }
+      });
+
+      btnCopyId.addEventListener("click", () => {
+        const id = offerIdVal.textContent;
+        if (id && id !== "N/A") {
+          navigator.clipboard.writeText(id);
+          showToast("Offer ID copied to clipboard!");
+        }
+      });
+
+      btnClaimOffer.addEventListener("click", () => {
+        if (currentOffer) {
+          showToast("Offer claimed successfully! Show this offer ID at venue.");
+        }
+      });
+
+      btnShareOffer.addEventListener("click", () => {
+        if (navigator.share) {
+          navigator.share({
+            title: currentOffer ? currentOffer.title : "Special Offer on CityMate",
+            url: window.location.href
+          }).catch(() => {});
+        } else {
+          navigator.clipboard.writeText(window.location.href);
+          showToast("Offer link copied to clipboard!");
+        }
+      });
+
+      // Initialization logic
+      if (serverPreRenderedOffer) {
+        currentOffer = serverPreRenderedOffer;
+        renderOffer(serverPreRenderedOffer);
+      } else {
+        const targetId = getOfferIdFromURL();
+        if (targetId) {
+          loadOfferData(targetId);
+        } else {
+          showError("Enter an Offer ID", "Please type an Offer ID in the top lookup bar to view offer details.");
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

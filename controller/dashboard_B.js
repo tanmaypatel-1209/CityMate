@@ -7,11 +7,6 @@ const Education = require('../Entity/Education')
 const Restaurant = require('../Entity/Restaurant & Cafe')
 const app = express.Router();
 const {
-    maping,
-    maping2,
-    reverseMaping,
-    reverseMaping2,
-    shuffle,
     check,
     encrypt,
     decrypt
@@ -103,7 +98,7 @@ app.get('/display', async (req, res, next) => {
     let u = await user.findOne({ email: cu });
     let arr = [];
     arr = await Services.find({ user: u._id })
-    res.json(arr)
+    return res.json(arr)
 
 })
 module.exports = app;
