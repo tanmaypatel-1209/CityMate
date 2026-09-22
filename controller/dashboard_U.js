@@ -18,17 +18,31 @@ app.get('/display', async (req, res, next) => {
     const page = req.query.page;
     const usercity = req.cookies.city || "";
     const filter = usercity ? { city: new RegExp('^' + usercity + '$', 'i') } : {};
-    // console.log(req.cookies.city+"......................")
-    // console.log(req.cookies.state+"......................")
-    // console.log("......"+filter.city);
-    let services = await redisServer.get(String(filter.city));
+
+    let services = null;
+    if (redisServer.isOpen) {
+        try {
+            const cached = await redisServer.get(String(filter.city));
+            if (cached) {
+                services = JSON.parse(cached);
+            }
+        } catch (err) {
+            console.warn("Redis get error:", err.message);
+        }
+    }
 
     if (page == 1 && !services) {
         services = await Services.find(filter).limit(20);
-        await redisServer.set(String(filter.city), JSON.stringify(services));
+        if (redisServer.isOpen) {
+            try {
+                await redisServer.set(String(filter.city), JSON.stringify(services));
+            } catch (err) {
+                console.warn("Redis set error:", err.message);
+            }
+        }
         return res.json({
             usercity: usercity || "All Locations",
-            services: (services)
+            services: services
         });
 
     }
@@ -36,13 +50,22 @@ app.get('/display', async (req, res, next) => {
         services = await Services.find(filter).skip((page-1) * 20).limit(20);
         return res.json({
             usercity: usercity || "All Locations",
-            services: (services)
+            services: services
         });
     }
-    console.log("return from redis")
+
+    if (services) {
+        console.log("return from redis");
+        return res.json({
+            usercity: usercity || "All Locations",
+            services: services
+        });
+    }
+
+    services = await Services.find(filter).limit(20);
     return res.json({
         usercity: usercity || "All Locations",
-        services: JSON.parse(services)
+        services: services
     });
 
 

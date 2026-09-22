@@ -11,8 +11,7 @@ const {
 const U = "User";
 const B = "BusinessOwner";
 function hasRole(url, role) {
-    if ("/dashboard" == url && role == B) {
-        console.log("notwork")
+    if (url.startsWith("/dashboard") && role == B) {
         return true;
     }
     else if (url.startsWith("/userdashboard")) {
@@ -25,6 +24,9 @@ function hasRole(url, role) {
         return true;
     }
     else if (url.startsWith("/Createoffer") && role == B) {
+        return true;
+    }
+    else if (url.startsWith("/profile")) {
         return true;
     }
     return false;

@@ -1338,7 +1338,11 @@
           <i data-lucide="map-pin"></i>
           <span id="nav-location-text">Detecting location...</span>
         </div>
-        <a href="/logout" class="btn-logout">
+        <a href="/profile" class="btn-logout" style="text-decoration: none;" title="Edit Profile">
+          <i data-lucide="user"></i>
+          <span>Profile</span>
+        </a>
+        <a href="/logout" class="btn-logout" style="text-decoration: none;" title="Logout">
           <i data-lucide="log-out"></i>
           <span>Logout</span>
         </a>
@@ -1620,7 +1624,13 @@
       // Render filtered services
       function renderServices() {
         const filtered = allServices.filter(s => {
-          const matchesCategory = currentCategory === "ALL" || s.serviceType === currentCategory;
+          const matchesCategory = currentCategory === "ALL" ||
+            (s.serviceType && (
+              s.serviceType === currentCategory ||
+              s.serviceType.trim().toLowerCase() === currentCategory.trim().toLowerCase()
+            ));
+
+          if (!matchesCategory) return false;
 
           if (!searchQuery.trim()) return true;
 
@@ -1653,6 +1663,10 @@
 
           return searchableFields.includes(q);
         });
+
+        if (filtered.length === 0 && currentCategory !== "ALL" && hasMore && !isLoading) {
+          fetchServices(currentPage + 1);
+        }
 
         if (filtered.length === 0) {
           servicesGrid.innerHTML = `
@@ -2397,6 +2411,13 @@
       };
 
       // Modal Close Listeners
+      const detailsCloseBtn = document.getElementById("modal-close");
+      const detailsModalEl = document.getElementById("details-modal");
+      if (detailsCloseBtn && detailsModalEl) {
+        detailsCloseBtn.addEventListener("click", () => detailsModalEl.classList.remove("active"));
+        detailsModalEl.addEventListener("click", (e) => { if (e.target === detailsModalEl) detailsModalEl.classList.remove("active"); });
+      }
+
       const seeClose = document.getElementById("see-reviews-close");
       const seeModalEl = document.getElementById("see-reviews-modal");
       if (seeClose && seeModalEl) {
@@ -2410,6 +2431,14 @@
         addClose.addEventListener("click", () => addModalEl.classList.remove("active"));
         addModalEl.addEventListener("click", (e) => { if (e.target === addModalEl) addModalEl.classList.remove("active"); });
       }
+
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          if (detailsModalEl) detailsModalEl.classList.remove("active");
+          if (seeModalEl) seeModalEl.classList.remove("active");
+          if (addModalEl) addModalEl.classList.remove("active");
+        }
+      });
 
       // Setup Scroll Sentinel & IntersectionObserver for Infinite Scroll Pagination
       const scrollSentinel = document.getElementById("scroll-sentinel");

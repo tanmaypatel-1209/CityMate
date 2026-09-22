@@ -93,12 +93,17 @@ app.post('/adddetail', async (req, res, next) => {
 
 })
 app.get('/display', async (req, res, next) => {
-    console.log(req.url);
-    const cu = decrypt(req.cookies.email)
-    let u = await user.findOne({ email: cu });
-    let arr = [];
-    arr = await Services.find({ user: u._id })
-    return res.json(arr)
-
-})
+    try {
+        const cu = decrypt(req.cookies.email);
+        let u = await user.findOne({ email: cu });
+        if (!u) {
+            return res.status(401).json({ error: "User account not found" });
+        }
+        let arr = await Services.find({ user: u._id });
+        return res.json(arr);
+    } catch (err) {
+        console.error("Error fetching business services:", err);
+        return res.status(500).json({ error: "Failed to fetch services" });
+    }
+});
 module.exports = app;

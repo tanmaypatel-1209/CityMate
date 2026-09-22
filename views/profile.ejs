@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Profile - CityMate</title>
+  <!-- Modern Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --bg-color: #ffffff;
+      --card-bg: #ffffff;
+      --border-color: #e2e8f0;
+      --border-hover: #cbd5e1;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --input-bg: #f8fafc;
+      --accent: #000000;
+      --accent-hover: #1e293b;
+      --success: #059669;
+      --error: #dc2626;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* Background grid pattern */
+    body::before {
+      content: "";
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background-image:
+        linear-gradient(rgba(0, 0, 0, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
+      background-size: 32px 32px;
+      background-position: center;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .app-container {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Navbar */
+    .navbar {
+      background-color: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 0.85rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+
+    .brand-logo {
+      width: 36px;
+      height: 36px;
+      background: #000000;
+      color: #ffffff;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.1rem;
+    }
+
+    .brand-text {
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: -0.02em;
+    }
+
+    .btn-back {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      padding: 0.55rem 1rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+    }
+
+    .btn-back:hover {
+      background-color: #f1f5f9;
+      color: var(--text-primary);
+    }
+
+    /* Profile Container */
+    .main-content {
+      flex: 1;
+      max-width: 680px;
+      width: 100%;
+      margin: 2.5rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .profile-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 2.25rem;
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+    }
+
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .avatar-box {
+      width: 64px;
+      height: 64px;
+      background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
+      color: #ffffff;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+    }
+
+    .profile-info h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .profile-info p {
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      margin-top: 0.2rem;
+    }
+
+    .role-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background-color: #f1f5f9;
+      color: var(--text-secondary);
+      border: 1px solid var(--border-color);
+      margin-top: 0.4rem;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .form-group label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-wrapper i.prefix-icon {
+      position: absolute;
+      left: 0.85rem;
+      color: var(--text-muted);
+      width: 18px;
+      height: 18px;
+      pointer-events: none;
+    }
+
+    .input-wrapper input {
+      width: 100%;
+      background-color: var(--input-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 0.65rem 1rem 0.65rem 2.6rem;
+      color: var(--text-primary);
+      font-size: 0.9rem;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .input-wrapper input:focus {
+      border-color: var(--accent);
+      background-color: #ffffff;
+      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
+    }
+
+    .input-wrapper input[readonly] {
+      background-color: #f1f5f9;
+      color: var(--text-muted);
+      cursor: not-allowed;
+    }
+
+    .toggle-pw-btn {
+      position: absolute;
+      right: 0.85rem;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      padding: 0.2rem;
+    }
+
+    .toggle-pw-btn:hover {
+      color: var(--text-primary);
+    }
+
+    .form-actions {
+      margin-top: 2rem;
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+    }
+
+    .btn-submit {
+      background-color: var(--accent);
+      color: #ffffff;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+    }
+
+    .btn-submit:hover {
+      background-color: var(--accent-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 0.85rem 1.25rem;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      z-index: 1000;
+      transform: translateY(150%);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast.success {
+      border-left: 4px solid var(--success);
+    }
+
+    .toast.error {
+      border-left: 4px solid var(--error);
+    }
+
+    .spin {
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      .profile-card {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app-container">
+    <!-- Navbar -->
+    <header class="navbar">
+      <a href="/userdashboard" id="nav-brand-link" class="brand">
+        <div class="brand-logo">C</div>
+        <span class="brand-text">CityMate</span>
+      </a>
+
+      <a href="#" id="back-dashboard-btn" class="btn-back">
+        <i data-lucide="arrow-left"></i>
+        <span>Back to Dashboard</span>
+      </a>
+    </header>
+
+    <!-- Main Body -->
+    <main class="main-content">
+      <div class="profile-card">
+        <div class="profile-header">
+          <div class="avatar-box" id="avatar-initials">U</div>
+          <div class="profile-info">
+            <h1 id="header-username">Loading profile...</h1>
+            <p id="header-email">Please wait</p>
+            <div class="role-badge">
+              <i data-lucide="shield-check" style="width: 14px; height: 14px;"></i>
+              <span id="header-role">User</span>
+            </div>
+          </div>
+        </div>
+
+        <form id="profile-form">
+          <div class="form-grid">
+            <!-- Full Name -->
+            <div class="form-group full-width">
+              <label for="username">Full Name / Username</label>
+              <div class="input-wrapper">
+                <i data-lucide="user" class="prefix-icon"></i>
+                <input type="text" id="username" name="username" placeholder="Enter your full name" required />
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="form-group full-width">
+              <label for="email">Email Address</label>
+              <div class="input-wrapper">
+                <i data-lucide="mail" class="prefix-icon"></i>
+                <input type="email" id="email" name="email" placeholder="name@example.com" required />
+              </div>
+            </div>
+
+            <!-- City -->
+            <div class="form-group">
+              <label for="city">City</label>
+              <div class="input-wrapper">
+                <i data-lucide="map-pin" class="prefix-icon"></i>
+                <input type="text" id="city" name="city" placeholder="e.g. New York" />
+              </div>
+            </div>
+
+            <!-- State -->
+            <div class="form-group">
+              <label for="state">State</label>
+              <div class="input-wrapper">
+                <i data-lucide="map" class="prefix-icon"></i>
+                <input type="text" id="state" name="state" placeholder="e.g. NY" />
+              </div>
+            </div>
+
+            <!-- Password -->
+            <div class="form-group full-width">
+              <label for="newPassword">New Password (leave blank to keep current password)</label>
+              <div class="input-wrapper">
+                <i data-lucide="lock" class="prefix-icon"></i>
+                <input type="password" id="newPassword" name="newPassword" placeholder="Enter new password" />
+                <button type="button" class="toggle-pw-btn" id="toggle-pw">
+                  <i data-lucide="eye" id="pw-icon"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-submit" id="save-btn">
+              <i data-lucide="save" id="save-icon"></i>
+              <span>Save Changes</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">
+    <i data-lucide="check-circle" id="toast-icon"></i>
+    <span id="toast-message">Profile updated successfully!</span>
+  </div>
+
+  <script>
+    let userRole = 'User';
+
+    // Toggle password visibility
+    const togglePwBtn = document.getElementById('toggle-pw');
+    const pwInput = document.getElementById('newPassword');
+    togglePwBtn.addEventListener('click', () => {
+      const isPw = pwInput.type === 'password';
+      pwInput.type = isPw ? 'text' : 'password';
+      const icon = document.getElementById('pw-icon');
+      icon.setAttribute('data-lucide', isPw ? 'eye-off' : 'eye');
+      lucide.createIcons();
+    });
+
+    // Toast Notification Handler
+    function showToast(message, isError = false) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-message');
+      const toastIcon = document.getElementById('toast-icon');
+
+      toastMsg.innerText = message;
+      toast.className = `toast ${isError ? 'error' : 'success'} show`;
+      toastIcon.setAttribute('data-lucide', isError ? 'alert-circle' : 'check-circle');
+      lucide.createIcons();
+
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3500);
+    }
+
+    // Load user profile data
+    async function loadProfile() {
+      try {
+        const res = await fetch('/profile/data');
+        const data = await res.json();
+
+        if (data.success && data.user) {
+          const u = data.user;
+          document.getElementById('username').value = u.username || '';
+          document.getElementById('email').value = u.email || '';
+          document.getElementById('city').value = u.city || '';
+          document.getElementById('state').value = u.state || '';
+
+          document.getElementById('header-username').innerText = u.username || 'User Profile';
+          document.getElementById('header-email').innerText = u.email || '';
+          document.getElementById('header-role').innerText = u.role || 'User';
+
+          userRole = u.role || 'User';
+
+          // Set initials in avatar
+          const initials = u.username ? u.username.charAt(0).toUpperCase() : 'U';
+          document.getElementById('avatar-initials').innerText = initials;
+
+          // Set back dashboard link dynamically based on role
+          const dashboardUrl = userRole === 'BusinessOwner' ? '/dashboard' : '/userdashboard';
+          document.getElementById('back-dashboard-btn').href = dashboardUrl;
+          document.getElementById('nav-brand-link').href = dashboardUrl;
+        } else {
+          showToast(data.error || 'Failed to load profile details', true);
+        }
+      } catch (err) {
+        console.error('Error fetching profile:', err);
+        showToast('Network error while loading profile', true);
+      }
+    }
+
+    // Handle profile form submit
+    let saveTimeout = null;
+    document.getElementById('profile-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      if (saveTimeout) clearTimeout(saveTimeout);
+      const saveBtn = document.getElementById('save-btn');
+
+      saveBtn.disabled = true;
+      saveBtn.style.backgroundColor = '';
+      saveBtn.innerHTML = `<i data-lucide="loader-2" class="spin"></i><span>Saving...</span>`;
+      lucide.createIcons();
+
+      const payload = {
+        username: document.getElementById('username').value,
+        email: document.getElementById('email').value,
+        city: document.getElementById('city').value,
+        state: document.getElementById('state').value,
+        newPassword: document.getElementById('newPassword').value
+      };
+
+      try {
+        const res = await fetch('/profile/update', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          showToast('Profile updated successfully!');
+          document.getElementById('newPassword').value = '';
+          loadProfile();
+
+          saveBtn.disabled = false;
+          saveBtn.style.backgroundColor = 'var(--success)';
+          saveBtn.innerHTML = `<i data-lucide="check-circle"></i><span>Changes Saved</span>`;
+          lucide.createIcons();
+
+          saveTimeout = setTimeout(() => {
+            saveBtn.style.backgroundColor = '';
+            saveBtn.innerHTML = `<i data-lucide="save"></i><span>Save Changes</span>`;
+            lucide.createIcons();
+          }, 2500);
+        } else {
+          showToast(data.error || 'Failed to update profile', true);
+          saveBtn.disabled = false;
+          saveBtn.style.backgroundColor = '';
+          saveBtn.innerHTML = `<i data-lucide="save"></i><span>Save Changes</span>`;
+          lucide.createIcons();
+        }
+      } catch (err) {
+        console.error('Error updating profile:', err);
+        showToast('Error saving profile changes', true);
+        saveBtn.disabled = false;
+        saveBtn.style.backgroundColor = '';
+        saveBtn.innerHTML = `<i data-lucide="save"></i><span>Save Changes</span>`;
+        lucide.createIcons();
+      }
+    });
+
+    // Initialize lucide icons & load profile data on load
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      loadProfile();
+    });
+  </script>
+</body>
+
+</html>

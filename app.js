@@ -13,6 +13,7 @@ const U_bash = require('./controller/dashboard_U')
 const review = require('./controller/review');
 const cors = require("cors");
 const CreateOffer = require('./controller/CreateOffer')
+const profile = require('./controller/profile')
 const cp = require("cookie-parser");
 dotenv.config();
 mongoose.connect(process.env.MONGO_URI)
@@ -43,6 +44,7 @@ server.use("/dashboard",B_dash)
 server.use("/userdashboard",U_bash)
 server.use("/review",review)
 server.use("/Createoffer",CreateOffer);
+server.use("/profile",profile);
 // server.use('/detail',)
 server.listen(3000,async()=>{
     connectRedis();
